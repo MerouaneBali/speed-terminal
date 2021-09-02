@@ -116,7 +116,7 @@ dist
 /build
 
 # compiled styling
-/public/css
+/src/css
 
 # misc
 .DS_Store

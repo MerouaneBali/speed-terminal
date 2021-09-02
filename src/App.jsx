@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+
+import Header from './components/Header';
+import Terminal from './components/Terminal';
+
+import './css/style.css';
 
 function App() {
+  const [terminal, setTerminal] = useState(true);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <Header />
+      <Terminal
+        visible={terminal}
+        expandable
+        unmountSelf={() => setTerminal(false)}
+      >
+        <h1>About Lorem</h1>
         <p>
-          Edit
-          <code>src/App.js</code>
-          and save to reload.
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Omnis
+          corrupti eveniet, rem magni vero, at fuga explicabo, incidunt fugit
+          pariatur inventore modi consectetur quod obcaecati!
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      </Terminal>
     </div>
   );
 }

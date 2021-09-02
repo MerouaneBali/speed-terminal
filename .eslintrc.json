@@ -7,8 +7,8 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
-    "airbnb",
-    "airbnb/hooks"
+    "airbnb"
+    // "airbnb/hooks"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -23,6 +23,12 @@
     "quotes": ["error", "single", { "avoidEscape": true }],
     "no-console": "off",
     "comma-dangle": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/prop-types": "off",
+    "operator-linebreak": "off",
+    "no-unused-expressions": "off",
+    "implicit-arrow-linebreak": "off"
+    // "react-hooks/exhaustive-deps": "off"
   }
 }

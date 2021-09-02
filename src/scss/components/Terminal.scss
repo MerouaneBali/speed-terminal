@@ -1,0 +1,44 @@
+@use "../base/_colors" as *;
+
+.terminal {
+  position: fixed;
+  top: calc(32px + 2.5em * 2);
+  max-height: calc(100vh - 2.5em * 2);
+  max-width: calc(100vw - 2.5em * 2);
+  padding: 1.25em;
+  border: 2px solid $light;
+  border-radius: 10px;
+  background-color: $dark;
+
+  .terminal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    p {
+      flex: 1;
+    }
+
+    button {
+      background: none;
+      height: 32px;
+      width: 32px;
+      padding: 0;
+      margin-left: 1.25em;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  .terminal__body {
+    height: calc(100% - 2.5em - 1.25em);
+    width: 100%;
+    padding-right: 1.25em;
+    margin-top: 1.25em;
+    overflow-y: scroll;
+
+    * + * {
+      margin-top: 1.25em;
+    }
+  }
+}
