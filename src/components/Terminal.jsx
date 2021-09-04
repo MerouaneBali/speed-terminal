@@ -9,7 +9,15 @@ import Close from '../svg/close.svg';
 
 import '../css/components/Terminal.css';
 
-function Terminal({ visible, title, expandable, unmountSelf, children }) {
+function Terminal({
+  id,
+  className,
+  visible,
+  title,
+  expandable,
+  unmountSelf,
+  children,
+}) {
   const terminalRef = useRef();
 
   const [expanded, setExpanded] = useState(false);
@@ -159,7 +167,7 @@ function Terminal({ visible, title, expandable, unmountSelf, children }) {
   }, []);
 
   return visible ? (
-    <div className="terminal" ref={terminalRef}>
+    <div id={id} className={`terminal ${className}`} ref={terminalRef}>
       <div className="terminal__header">
         <p>{title || 'Terminal'}</p>
         {expandable && (
