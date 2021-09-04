@@ -1,0 +1,71 @@
+@use "../base/_colors" as *;
+
+#test-terminal {
+  .terminal__body {
+    display: flex;
+    flex-direction: column;
+
+    p {
+      flex: 1;
+      line-height: 200%;
+
+      .word--incorrect {
+        span {
+          color: $error;
+          text-decoration: line-through;
+
+          &:last-child {
+            text-decoration: none;
+          }
+        }
+      }
+
+      .char {
+        color: rgba($color: $light, $alpha: 0.5);
+      }
+
+      .char--current {
+        text-decoration: none !important;
+        border-bottom: 2px solid $light;
+        animation: blink 1s step-end infinite;
+
+        @keyframes blink {
+          from,
+          to {
+            border-color: $light;
+          }
+          50% {
+            border-color: transparent;
+          }
+        }
+      }
+
+      .char--correct {
+        color: $light;
+      }
+
+      .char--incorrect {
+        color: $error;
+        background-color: rgba($color: $error, $alpha: 0.5);
+      }
+
+      .br::after {
+        content: ' ';
+        display: block;
+      }
+    }
+
+    #test-terminal__results_panel {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        // justify-content: center;
+      }
+    }
+  }
+}
