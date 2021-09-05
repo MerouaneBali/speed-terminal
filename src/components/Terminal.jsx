@@ -25,8 +25,14 @@ function Terminal({
   const expand = () => {
     const terminal = terminalRef.current;
 
-    terminal.setAttribute('prev-height', terminal.offsetHeight);
-    terminal.setAttribute('prev-width', terminal.offsetWidth);
+    terminal.setAttribute(
+      'prev-height',
+      window.getComputedStyle(terminal).height
+    );
+    terminal.setAttribute(
+      'prev-width',
+      window.getComputedStyle(terminal).width
+    );
     terminal.setAttribute(
       'prev-transform',
       window.getComputedStyle(terminal).transform
@@ -65,9 +71,9 @@ function Terminal({
     // TODO: add transition animation using JS
     terminal.style.top = '';
     terminal.style.left = '';
-    terminal.style.height = `${prevHeight}px`;
-    terminal.style.width = `${prevWidth}px`;
-    terminal.style.transform = `${prevTransform}`;
+    terminal.style.height = prevHeight;
+    terminal.style.width = prevWidth;
+    terminal.style.transform = prevTransform;
   };
 
   useEffect(() => {
