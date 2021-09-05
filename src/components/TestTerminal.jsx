@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Terminal from './Terminal';
 
 import '../css/components/TestTerminal.css';
+import activateTerminal from '../utils/activateTerminal';
 
 function TestTerminal({
   innerRef,
@@ -467,15 +468,6 @@ function TestTerminal({
     };
   }, [state, clock]);
 
-  const activateTerminal = () => {
-    terminalsRef.current[refIndex].setAttribute('active', true);
-
-    terminalsRef.current.map(
-      (terminal, index) =>
-        terminal && index !== refIndex && terminal.setAttribute('active', false)
-    );
-  };
-
   return (
     <Terminal
       innerRef={innerRef}
@@ -484,7 +476,7 @@ function TestTerminal({
       expandable
       visible={testTerminal}
       unmountSelf={() => setTestTerminal(false)}
-      onMouseDown={() => activateTerminal()}
+      onMouseDown={() => activateTerminal(terminalsRef, refIndex)}
     >
       <p
         ref={textRef}
