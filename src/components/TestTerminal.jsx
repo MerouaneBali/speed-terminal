@@ -6,7 +6,7 @@ import Terminal from './Terminal';
 
 import '../css/components/TestTerminal.css';
 
-function TestTerminal(testTerminal, setTestTerminal) {
+function TestTerminal({ testTerminal, setTestTerminal }) {
   const [state, setState] = useState('ready');
   // eslint-disable-next-line no-unused-vars
   const [duration, setDuration] = useState(60);
