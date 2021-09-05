@@ -198,7 +198,7 @@ function Terminal({
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       id={id}
-      className={`terminal ${className}`}
+      className={`terminal${className ? ` ${className}` : ''}`}
       ref={mergeRefs(terminalRef, innerRef)}
       onMouseDown={onMouseDown}
     >
