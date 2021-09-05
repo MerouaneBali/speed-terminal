@@ -108,60 +108,61 @@ function Terminal({
       target.setAttribute('data-y', y);
     }
 
-    interact(terminalRef.current)
-      .draggable({
-        // enable inertial throwing
-        inertia: true,
+    visible &&
+      interact(terminalRef.current)
+        .draggable({
+          // enable inertial throwing
+          inertia: true,
 
-        // keep the element within the area of it's parent
-        modifiers: [
-          interact.modifiers.restrictRect({
-            restriction: 'parent',
-            endOnly: true,
-          }),
-        ],
+          // keep the element within the area of it's parent
+          modifiers: [
+            interact.modifiers.restrictRect({
+              restriction: 'parent',
+              endOnly: true,
+            }),
+          ],
 
-        // enable autoScroll
-        autoScroll: true,
+          // enable autoScroll
+          autoScroll: true,
 
-        listeners: {
-          // call this function on every dragmove event
-          move: dragMoveListener,
+          listeners: {
+            // call this function on every dragmove event
+            move: dragMoveListener,
 
-          // eslint-disable-next-line max-len
-          // TODO: Add "end" listener to put back the target to the viewport if it was let go outside it.
-        },
-      })
-      .resizable({
-        inertia: false,
+            // eslint-disable-next-line max-len
+            // TODO: Add "end" listener to put back the target to the viewport if it was let go outside it.
+          },
+        })
+        .resizable({
+          inertia: false,
 
-        modifiers: [
-          // keep the edges inside the parent
-          interact.modifiers.restrictEdges({
-            outer: 'parent',
-          }),
+          modifiers: [
+            // keep the edges inside the parent
+            interact.modifiers.restrictEdges({
+              outer: 'parent',
+            }),
 
-          // minimum and maximum size
-          interact.modifiers.restrictSize({
-            min: { width: 100, height: 50 },
-            max: {
-              height: window.innerHeight - convertEmToPixels(2.5) * 2,
-              width: window.innerWidth - convertEmToPixels(2.5) * 2,
-            },
-          }),
-        ],
+            // minimum and maximum size
+            interact.modifiers.restrictSize({
+              min: { width: 100, height: 50 },
+              max: {
+                height: window.innerHeight - convertEmToPixels(2.5) * 2,
+                width: window.innerWidth - convertEmToPixels(2.5) * 2,
+              },
+            }),
+          ],
 
-        // resize from all edges and corners
-        edges: { left: true, right: true, bottom: true, top: true },
+          // resize from all edges and corners
+          edges: { left: true, right: true, bottom: true, top: true },
 
-        listeners: {
-          move: resizeMoveListener,
-        },
-      })
-      .on('doubletap', (event) => {
-        // TODO: Toggle expand() and minimize()
-        event.preventDefault();
-      });
+          listeners: {
+            move: resizeMoveListener,
+          },
+        })
+        .on('doubletap', (event) => {
+          // TODO: Toggle expand() and minimize()
+          event.preventDefault();
+        });
 
     window.dragMoveListener = dragMoveListener;
   }, []);
