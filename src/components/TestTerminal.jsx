@@ -6,7 +6,13 @@ import Terminal from './Terminal';
 
 import '../css/components/TestTerminal.css';
 
-function TestTerminal({ testTerminal, setTestTerminal }) {
+function TestTerminal({
+  innerRef,
+  refIndex,
+  terminalsRef,
+  testTerminal,
+  setTestTerminal,
+}) {
   const [state, setState] = useState('ready');
   // eslint-disable-next-line no-unused-vars
   const [duration, setDuration] = useState(60);
@@ -207,6 +213,10 @@ function TestTerminal({ testTerminal, setTestTerminal }) {
   };
 
   const keydownHandler = ({ key }) => {
+    if (terminalsRef.current[refIndex].getAttribute('active') !== 'true') {
+      return null;
+    }
+
     // TODO:Figure out why key doesn't match keyboard input
 
     // TODO: use regexu to support old browsers that doesn't understand unicode ReGex
@@ -457,13 +467,24 @@ function TestTerminal({ testTerminal, setTestTerminal }) {
     };
   }, [state, clock]);
 
+  const activateTerminal = () => {
+    terminalsRef.current[refIndex].setAttribute('active', true);
+
+    terminalsRef.current.map(
+      (terminal, index) =>
+        index !== refIndex && terminal.setAttribute('active', false)
+    );
+  };
+
   return (
     <Terminal
+      innerRef={innerRef}
       id="test-terminal"
       title="Test"
       expandable
       visible={testTerminal}
       unmountSelf={() => setTestTerminal(false)}
+      onMouseDown={() => activateTerminal()}
     >
       <p
         ref={textRef}

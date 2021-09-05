@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import interact from 'interactjs';
 
+import mergeRefs from '../utils/mergeRefs';
 import convertEmToPixels from '../utils/convertEmToPixels';
 
 import Expand from '../svg/expand.svg';
@@ -10,6 +11,7 @@ import Close from '../svg/close.svg';
 import '../css/components/Terminal.css';
 
 function Terminal({
+  innerRef,
   id,
   className,
   visible,
@@ -17,6 +19,7 @@ function Terminal({
   expandable,
   unmountSelf,
   children,
+  onMouseDown,
 }) {
   const terminalRef = useRef();
 
@@ -191,7 +194,14 @@ function Terminal({
   }, []);
 
   return visible ? (
-    <div id={id} className={`terminal ${className}`} ref={terminalRef}>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div
+      id={id}
+      className={`terminal ${className}`}
+      ref={mergeRefs(terminalRef, innerRef)}
+      onMouseDown={onMouseDown}
+    >
       <div className="terminal__header">
         <p>{title || 'Terminal'}</p>
         {expandable && (
@@ -215,6 +225,7 @@ function Terminal({
         </button>
       </div>
       <div className="terminal__body">{children}</div>
+      <div className="terminal__overlay" />
     </div>
   ) : (
     <></>
