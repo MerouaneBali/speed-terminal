@@ -77,6 +77,25 @@ function Terminal({
   };
 
   useEffect(() => {
+    const terminal = terminalRef.current;
+
+    if (terminal) {
+      terminal.setAttribute(
+        'prev-height',
+        window.getComputedStyle(terminal).height
+      );
+      terminal.setAttribute(
+        'prev-width',
+        window.getComputedStyle(terminal).width
+      );
+      terminal.setAttribute(
+        'prev-transform',
+        window.getComputedStyle(terminal).transform
+      );
+    }
+  }, [terminalRef]);
+
+  useEffect(() => {
     function dragMoveListener(event) {
       const { target } = event;
 
