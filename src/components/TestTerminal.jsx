@@ -214,7 +214,9 @@ function TestTerminal({
   };
 
   const keydownHandler = ({ key }) => {
-    if (terminalsRef.current[refIndex].getAttribute('active') !== 'true') {
+    const terminal = terminalsRef.current[refIndex];
+
+    if (terminal && terminal.getAttribute('active') !== 'true') {
       return null;
     }
 
