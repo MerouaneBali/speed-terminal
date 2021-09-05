@@ -472,7 +472,7 @@ function TestTerminal({
 
     terminalsRef.current.map(
       (terminal, index) =>
-        index !== refIndex && terminal.setAttribute('active', false)
+        terminal && index !== refIndex && terminal.setAttribute('active', false)
     );
   };
 
