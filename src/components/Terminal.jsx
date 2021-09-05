@@ -93,8 +93,6 @@ function Terminal({
     }
 
     function resizeMoveListener(event) {
-      terminalRef.current.classList.remove('terminal--hide');
-
       const { target } = event;
 
       let x = parseFloat(target.getAttribute('data-x')) || 0;
