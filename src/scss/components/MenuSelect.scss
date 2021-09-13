@@ -1,0 +1,16 @@
+@use '../base/colors' as *;
+
+.menu-select {
+  display: flex;
+
+  .menu-select__selected {
+    color: $success;
+    span {
+      color: $light;
+    }
+  }
+
+  * + * {
+    margin-left: 1.25em;
+  }
+}

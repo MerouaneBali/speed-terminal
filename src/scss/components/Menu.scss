@@ -1,0 +1,26 @@
+@use '../base/colors' as *;
+
+.menu {
+  display: flex;
+
+  & > * + * {
+    margin-top: 0;
+  }
+
+  .menu__arrow__container {
+    .menu__arrow {
+      color: $success;
+    }
+  }
+
+  .menu__options {
+    ul {
+      list-style: none;
+      padding-left: 1.25em;
+
+      li + li {
+        margin-top: 1.25em;
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+@use '../base/colors' as *;
+
+.menu-checkbox {
+  display: flex;
+
+  input {
+    height: 0;
+    width: 0;
+    margin-left: 1.25em;
+  }
+
+  input[value='true'] + .menu-checkbox__checked {
+    color: $success;
+  }
+
+  input[value='false'] + .menu-checkbox__checked {
+    color: $error;
+  }
+}
