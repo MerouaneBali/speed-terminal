@@ -42,6 +42,8 @@
     ]
   },
   "devDependencies": {
+    "better-docs": "^2.3.2",
+    "browser-sync": "^2.27.5",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -50,7 +52,9 @@
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "gulp-jsdoc3": "^3.0.0",
     "install-peerdeps": "^3.0.3",
+    "jsdoc": "^3.6.7",
     "prettier": "^2.3.2"
   }
 }

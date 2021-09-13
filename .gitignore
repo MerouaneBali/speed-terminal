@@ -115,6 +115,9 @@ dist
 # production
 /build
 
+# documentation
+/docs
+
 # compiled styling
 /src/css
 
