@@ -15,8 +15,11 @@ function Terminal({
   id,
   className,
   visible,
+  active,
+  disabled,
   title,
   expandable,
+  initSize,
   unmountSelf,
   children,
   onMouseDown,
@@ -82,6 +85,15 @@ function Terminal({
   useEffect(() => {
     const terminal = terminalRef.current;
 
+    if (initSize) {
+      if (initSize === 'expanded') {
+        expand();
+      } else {
+        terminal.height = initSize.height;
+        terminal.width = initSize.width;
+      }
+    }
+
     if (terminal) {
       terminal.setAttribute(
         'prev-height',
@@ -100,38 +112,42 @@ function Terminal({
 
   useEffect(() => {
     function dragMoveListener(event) {
-      const { target } = event;
+      if (!disabled) {
+        const { target } = event;
 
-      // keep the dragged position in the data-x/data-y attributes
-      const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-      const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+        // keep the dragged position in the data-x/data-y attributes
+        const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+        const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-      // translate the element
-      target.style.transform = `translate(${x}px, ${y}px)`;
+        // translate the element
+        target.style.transform = `translate(${x}px, ${y}px)`;
 
-      // update the posiion attributes
-      target.setAttribute('data-x', x);
-      target.setAttribute('data-y', y);
+        // update the posiion attributes
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
+      }
     }
 
     function resizeMoveListener(event) {
-      const { target } = event;
+      if (!disabled) {
+        const { target } = event;
 
-      let x = parseFloat(target.getAttribute('data-x')) || 0;
-      let y = parseFloat(target.getAttribute('data-y')) || 0;
+        let x = parseFloat(target.getAttribute('data-x')) || 0;
+        let y = parseFloat(target.getAttribute('data-y')) || 0;
 
-      // update the element's style
-      target.style.width = `${event.rect.width}px`;
-      target.style.height = `${event.rect.height}px`;
+        // update the element's style
+        target.style.width = `${event.rect.width}px`;
+        target.style.height = `${event.rect.height}px`;
 
-      // translate when resizing from top or left edges
-      x += event.deltaRect.left;
-      y += event.deltaRect.top;
+        // translate when resizing from top or left edges
+        x += event.deltaRect.left;
+        y += event.deltaRect.top;
 
-      target.style.transform = `translate(${x}px, ${y}px)`;
+        target.style.transform = `translate(${x}px, ${y}px)`;
 
-      target.setAttribute('data-x', x);
-      target.setAttribute('data-y', y);
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
+      }
     }
 
     visible &&
@@ -191,7 +207,19 @@ function Terminal({
         });
 
     window.dragMoveListener = dragMoveListener;
-  }, []);
+  }, [visible, disabled]);
+
+  useEffect(() => {
+    const terminal = terminalRef.current;
+
+    if (terminal) {
+      if (disabled) {
+        terminal.setAttribute('active', false);
+      } else {
+        terminal.setAttribute('active', true);
+      }
+    }
+  }, [disabled]);
 
   return visible ? (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -201,6 +229,7 @@ function Terminal({
       className={`terminal${className ? ` ${className}` : ''}`}
       ref={mergeRefs(terminalRef, innerRef)}
       onMouseDown={onMouseDown}
+      active={active || 'false'}
     >
       <div className="terminal__header">
         <p>{title || 'Terminal'}</p>
