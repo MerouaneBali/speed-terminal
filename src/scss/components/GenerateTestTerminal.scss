@@ -1,0 +1,7 @@
+@use '../base/colors' as *;
+
+.topic {
+  span {
+    color: $success;
+  }
+}

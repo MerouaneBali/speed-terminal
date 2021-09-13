@@ -2,10 +2,12 @@
   "name": "speed-terminal",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://en.wikipedia.org",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.2",
     "gulp": "^4.0.2",
     "gulp-sass": "^5.0.0",
     "interactjs": "^1.10.11",

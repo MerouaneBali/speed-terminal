@@ -2,10 +2,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import activateTerminal from '../utils/activateTerminal';
+
 import Terminal from './Terminal';
 
 import '../css/components/TestTerminal.css';
-import activateTerminal from '../utils/activateTerminal';
+import TestEndDialogTerminal from './TestEndDialogTerminal';
 
 function TestTerminal({
   innerRef,
@@ -13,10 +15,14 @@ function TestTerminal({
   terminalsRef,
   testTerminal,
   setTestTerminal,
+  state,
+  setState,
+  generatedTestText,
+  duration,
 }) {
-  const [state, setState] = useState('ready');
-  // eslint-disable-next-line no-unused-vars
-  const [duration, setDuration] = useState(60);
+  const [endDialog, setEndDialog] = useState(false);
+  const endDialogRef = useRef();
+
   const [clock, setClock] = useState(duration);
   const [textContent, setTextContent] = useState([]);
 
@@ -25,9 +31,7 @@ function TestTerminal({
   const charsRef = useRef([]);
 
   const timeRef = useRef();
-  const wpmGrossRef = useRef();
   const wpmNetRef = useRef();
-  const accuracyGrossRef = useRef();
   const accuracyNetRef = useRef();
 
   const getCharGlobalIndex = (wordIndex, charIndex, testText) =>
@@ -69,7 +73,7 @@ function TestTerminal({
   };
 
   const loadTextContent = (testText) => {
-    testText.split(' ').map((word, wordIndex) => {
+    const textContentComponents = testText.split(' ').map((word, wordIndex) => {
       // eslint-disable-next-line no-param-reassign
       word = word.split(' ');
 
@@ -119,18 +123,18 @@ function TestTerminal({
         </span>
       );
 
-      setTextContent((prevState) => [...prevState, wordChild]);
-
-      return null;
+      return wordChild;
     });
+
+    setTextContent(textContentComponents);
   };
 
   useEffect(() => {
-    const testText =
-      'Abdelkader ibn Muhieddine,↵ known as the Emir Abdelkader or Abdelkader El Hassani El Djazairi, was an Algerian religious and military leader who led a struggle against the French colonial invasion in the mid-19th century.';
-
-    loadTextContent(testText);
-  }, []);
+    generatedTestText &&
+      generatedTestText !== undefined &&
+      generatedTestText !== '' &&
+      loadTextContent(generatedTestText);
+  }, [generatedTestText]);
 
   useEffect(() => {
     let intervalId;
@@ -180,7 +184,7 @@ function TestTerminal({
 
     const wpmNet = wpmGross - wordsIncorrect / minutes;
 
-    wpmGrossRef.current.innerText = `${Math.round(wpmGross)}`;
+    // wpmGrossRef.current.innerText = `${Math.round(wpmGross)}`;
     wpmNetRef.current.innerText = `${Math.round(wpmNet)}`;
   };
 
@@ -205,11 +209,12 @@ function TestTerminal({
       10
     );
 
+    // eslint-disable-next-line no-unused-vars
     const accuracyGross = (wordsCorrect / wordsTyped) * 100;
 
     const accuracyNet = (charsCorrect / charsTyped) * 100;
 
-    accuracyGrossRef.current.innerText = `${Math.round(accuracyGross)}%`;
+    // accuracyGrossRef.current.innerText = `${Math.round(accuracyGross)}%`;
     accuracyNetRef.current.innerText = `${Math.round(accuracyNet)}%`;
   };
 
@@ -250,7 +255,7 @@ function TestTerminal({
       ) {
         char.classList.add('char--correct');
 
-        state === 'ready' && setState('start');
+        state === 'steady' && setState('start');
 
         const correctChars = parseInt(
           textRef.current.getAttribute('data-correct-chars'),
@@ -463,6 +468,9 @@ function TestTerminal({
 
     if (state === 'finish' || state === 'stop') {
       document.removeEventListener('keydown', keydownHandler);
+      calcWPM();
+      calcAccuracy();
+      setEndDialog(true);
     }
 
     return () => {
@@ -471,51 +479,54 @@ function TestTerminal({
   }, [state, clock]);
 
   return (
-    <Terminal
-      innerRef={innerRef}
-      id="test-terminal"
-      title="Test"
-      expandable
-      visible={testTerminal}
-      unmountSelf={() => setTestTerminal(false)}
-      onMouseDown={() => activateTerminal(terminalsRef, refIndex)}
-    >
-      <p
-        ref={textRef}
-        data-caret-position="-1"
-        data-typed-chars="0"
-        data-correct-chars="0"
-        data-incorrect-chars="0"
-        data-typed-words="0"
-        data-correct-words="0"
-        data-incorrect-words="0"
+    <>
+      <Terminal
+        innerRef={innerRef}
+        id="test-terminal"
+        title="Test"
+        expandable
+        initSize="expanded"
+        visible={testTerminal}
+        unmountSelf={() => setTestTerminal(false)}
+        onMouseDown={() => activateTerminal(terminalsRef, refIndex)}
       >
-        {[...textContent]}
-      </p>
+        <div id="test-terminal__text_container">
+          <p
+            ref={textRef}
+            data-caret-position="-1"
+            data-typed-chars="0"
+            data-correct-chars="0"
+            data-incorrect-chars="0"
+            data-typed-words="0"
+            data-correct-words="0"
+            data-incorrect-words="0"
+          >
+            {[...textContent]}
+          </p>
+        </div>
 
-      <div id="test-terminal__results_panel">
-        <div>
-          <h2 ref={timeRef}>00:00</h2>
-          <p>Time</p>
+        <div id="test-terminal__results_panel">
+          <div>
+            <h2 ref={timeRef}>00:00</h2>
+            <p>Time</p>
+          </div>
+          <div>
+            <h2 ref={wpmNetRef}>0</h2>
+            <p>Words/Minute</p>
+          </div>
+          <div>
+            <h2 ref={accuracyNetRef}>0</h2>
+            <p>Acurracy</p>
+          </div>
         </div>
-        <div>
-          <h2>
-            <span ref={wpmGrossRef}>0</span>
-            <span> | </span>
-            <span ref={wpmNetRef}>0</span>
-          </h2>
-          <p>Words/Minute</p>
-        </div>
-        <div>
-          <h2>
-            <span ref={accuracyGrossRef}>0%</span>
-            <span> | </span>
-            <span ref={accuracyNetRef}>0%</span>
-          </h2>
-          <p>Acurracy</p>
-        </div>
-      </div>
-    </Terminal>
+      </Terminal>
+
+      <TestEndDialogTerminal
+        innerRef={endDialogRef}
+        endDialog={endDialog}
+        setEndDialog={setEndDialog}
+      />
+    </>
   );
 }
 

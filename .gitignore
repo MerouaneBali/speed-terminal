@@ -118,6 +118,9 @@ dist
 # compiled styling
 /src/css
 
+# temporary
+/src/temp
+
 # misc
 .DS_Store
 .env.local
