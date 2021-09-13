@@ -6,8 +6,8 @@ h1 {
   color: $light;
 }
 
-p {
-  font-size: clamp(1rem, 1.25vw, 1.25rem);
+:not(h1, h2, h3) {
+  font-size: clamp(1rem, 1.25vw, 1.125rem);
   font-weight: 400;
   color: $light;
 }
