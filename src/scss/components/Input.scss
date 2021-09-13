@@ -1,0 +1,58 @@
+@use '../base/colors' as *;
+
+.input {
+  display: flex;
+
+  div {
+    position: relative;
+
+    input {
+      position: absolute;
+      height: 0;
+      width: 0;
+      background: none;
+      border: none;
+      outline: none;
+      padding: 0;
+      opacity: 0;
+      margin: 0;
+      caret-color: rgba($color: $light, $alpha: 0);
+
+      &::placeholder {
+        color: $success;
+      }
+
+      &:focus::placeholder {
+        color: rgba($color: $light, $alpha: 0.5);
+      }
+    }
+
+    .input__value {
+      color: $success;
+      margin-left: 1.25em;
+    }
+
+    .input__value::after {
+      content: '0';
+      height: 21px;
+      width: 1ch;
+      color: $light;
+      background-color: $light;
+      opacity: 0;
+    }
+
+    input:focus + .input__value::after {
+      animation: blink 1s step-end infinite;
+
+      @keyframes blink {
+        from,
+        to {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+    }
+  }
+}
