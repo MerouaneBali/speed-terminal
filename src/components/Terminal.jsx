@@ -46,7 +46,7 @@ function Terminal({
 }) {
   const terminalRef = useRef();
 
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(initSize === 'expanded');
 
   /** Expand terminal and set prev-height, prev-width and prev-transform attributes
    *  to be used to minimize it back to it's previous size */
@@ -97,6 +97,8 @@ function Terminal({
     const prevWidth = terminal.getAttribute('prev-width');
     const prevTransform = terminal.getAttribute('prev-transform');
 
+    console.log(prevHeight, prevWidth, prevTransform);
+
     // TODO: add transition animation using JS
     terminal.style.top = '';
     terminal.style.left = '';
@@ -125,18 +127,23 @@ function Terminal({
     }
 
     if (terminal) {
-      terminal.setAttribute(
-        'prev-height',
-        window.getComputedStyle(terminal).height
-      );
-      terminal.setAttribute(
-        'prev-width',
-        window.getComputedStyle(terminal).width
-      );
-      terminal.setAttribute(
-        'prev-transform',
-        window.getComputedStyle(terminal).transform
-      );
+      if (initSize === 'expanded') {
+        terminal.setAttribute('prev-height', '50%');
+        terminal.setAttribute('prev-width', '50%');
+      } else {
+        terminal.setAttribute(
+          'prev-height',
+          window.getComputedStyle(terminal).height
+        );
+        terminal.setAttribute(
+          'prev-width',
+          window.getComputedStyle(terminal).width
+        );
+        terminal.setAttribute(
+          'prev-transform',
+          window.getComputedStyle(terminal).transform
+        );
+      }
     }
   }, [terminalRef]);
 
