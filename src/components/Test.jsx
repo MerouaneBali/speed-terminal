@@ -4,6 +4,22 @@ import React, { useState } from 'react';
 import TestTerminal from './TestTerminal';
 import GenerateTestTerminal from './GenerateTestTerminal';
 
+/**
+ * @component
+ *
+ * @description Wrapper component containing {@link GenerateTestTerminal} and {@link TestTerminal}
+ *
+ * @prop {object} props React props
+ * @prop {object} props.innerRef External reference hook for the terminal
+ * @prop {number} props.refIndex Index of current terminal in terminalsRef
+ * @prop {object} props.terminalsRef Reference hook containing an array of terminals hooks
+ * @prop {boolean} props.testTerminal State of test terminal visiblity
+ * @prop {function} props.setTestTerminal Set testTerminal state function
+ *
+ * @requires useState
+ * @requires GenerateTestTerminal
+ * @requires TestTerminal
+ */
 function Test({
   innerRef,
   refIndex,

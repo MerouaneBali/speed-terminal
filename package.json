@@ -55,6 +55,7 @@
     "gulp-jsdoc3": "^3.0.0",
     "install-peerdeps": "^3.0.3",
     "jsdoc": "^3.6.7",
+    "parcel-bundler": "^1.12.5",
     "prettier": "^2.3.2"
   }
 }

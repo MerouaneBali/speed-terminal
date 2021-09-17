@@ -4,6 +4,11 @@ import logo from '../svg/logo.svg';
 
 import '../css/components/Header.css';
 
+/**
+ * @component
+ *
+ * @description Page navigation header
+ */
 function Header() {
   return (
     <header>

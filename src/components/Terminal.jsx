@@ -10,6 +10,26 @@ import Close from '../svg/close.svg';
 
 import '../css/components/Terminal.css';
 
+/**
+ * @component
+ *
+ * @description Terminal component
+ *
+ * @prop {object} props React props
+ * @prop {object} props.innerRef External reference hook for the terminal
+ * @prop {string} props.id Id for div container
+ * @prop {string} props.className className for div container
+ * @prop {boolean} props.visible Visible state of terminal
+ * @prop {boolean} props.active Active state of terminal
+ * @prop {boolean} props.disabled Disabled state of terminal
+ * @prop {string} props.title Title of terminal
+ * @prop {boolean} props.expandable Expand button visibility state
+ * @prop {string|object} props.initSize Initial size of terminal
+ * @prop {function} props.unmountSelf Unmount function of terminal, setting terminal state to false
+ * @prop {function} props.onMouseDown On mouse down function of terminal
+ * setting its `active` attribute of terminal to `true`
+ * @prop {object} props.children Children of terminal to render in '.terminal__body'
+ */
 function Terminal({
   innerRef,
   id,
@@ -28,6 +48,8 @@ function Terminal({
 
   const [expanded, setExpanded] = useState(false);
 
+  /** Expand terminal and set prev-height, prev-width and prev-transform attributes
+   *  to be used to minimize it back to it's previous size */
   const expand = () => {
     const terminal = terminalRef.current;
 
@@ -67,6 +89,7 @@ function Terminal({
     }px)`;
   };
 
+  /** Minimize terminal to it's previous size */
   const minimize = () => {
     const terminal = terminalRef.current;
 
@@ -82,6 +105,13 @@ function Terminal({
     terminal.style.transform = prevTransform;
   };
 
+  /**
+   * @method useEffect
+   * @memberof Terminal
+   * @description Load initial size of terminal,
+   * and set prev-height, prev-width and prev-transform attributes
+   * ### Dependencies: [`terminalRef`]
+   */
   useEffect(() => {
     const terminal = terminalRef.current;
 
@@ -110,6 +140,15 @@ function Terminal({
     }
   }, [terminalRef]);
 
+  /**
+   * @method useEffect
+   * @memberof SearchTopicTerminal
+   * @listens dragMoveListener
+   * @listens doubletap
+   * @description Adds dragMoveListener and doubletap event listeners
+   * to and from the search input (`Input`)
+   * ### Dependencies: [`visible`, `disabled`]
+   */
   useEffect(() => {
     function dragMoveListener(event) {
       if (!disabled) {
@@ -209,6 +248,12 @@ function Terminal({
     window.dragMoveListener = dragMoveListener;
   }, [visible, disabled]);
 
+  /**
+   * @method useEffect
+   * @memberof Terminal
+   * @description Set active attribute of terminal to false if `disabled`
+   * ### Dependencies: [`disabled`]
+   */
   useEffect(() => {
     const terminal = terminalRef.current;
 

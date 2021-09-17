@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+// @ts-nocheck
 /* eslint-disable react/no-array-index-key */
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -5,10 +7,33 @@ import React, { useEffect, useRef, useState } from 'react';
 import activateTerminal from '../utils/activateTerminal';
 
 import Terminal from './Terminal';
-
-import '../css/components/TestTerminal.css';
 import TestEndDialogTerminal from './TestEndDialogTerminal';
 
+import '../css/components/TestTerminal.css';
+
+/**
+ * @component
+ *
+ * @description Terminal containing the test,
+ * including the test text, duration, WPM and accuracy stats
+ *
+ * @prop {object} props React props
+ * @prop {object} props.innerRef External reference hook for the terminal
+ * @prop {number} props.refIndex Index of current terminal in terminalsRef
+ * @prop {object} props.terminalsRef Reference hook containing an array of terminals hooks
+ * @prop {boolean} props.testTerminal State of test terminal visiblity
+ * @prop {function} props.setTestTerminal Set testTerminal state function
+ * @prop {function} props.state State of the test
+ * @prop {function} props.setState Set state function
+ * @prop {number} props.duration Duration state
+ * @prop {function} props.generatedTestText generatedTestText state
+ *
+ * @requires useState
+ * @requires useRef
+ * @requires useEffect
+ * @requires Terminal
+ * @requires TestEndDialogTerminal
+ */
 function TestTerminal({
   innerRef,
   refIndex,
@@ -34,16 +59,22 @@ function TestTerminal({
   const wpmNetRef = useRef();
   const accuracyNetRef = useRef();
 
+  /**
+   * @description Get global index of character in text from its index in word parent
+   * @param {number} wordIndex Word index in text
+   * @param {number} charIndex Character index in word
+   * @param {string} testText Text to work with
+   * @returns {number} Index of character in text
+   */
   const getCharGlobalIndex = (wordIndex, charIndex, testText) =>
-    // create an array containing the length of each word
-    // ... while adding 1 for the space after the word unless its the last word in the text
     testText
-      // creating an array containing each word in the text
+      /** Create an array containing each word in the text */
       .split(' ')
-      // returning the length of each word + 1 for the space at the end
-      // ...unless it's the last word in the array,
-      // ...or unless the last character in the word is ↵
-      // ...preventing adding a space after a linebreak.
+      /**
+       * Add a space at the end of each word
+       * unless it's the last word in the text
+       * or if the last character of the word is '↵' preventing adding a space after a linebreak
+       */
       .map(
         (wordText, index) =>
           wordText.length +
@@ -51,13 +82,27 @@ function TestTerminal({
             ? 1
             : 0)
       )
-      // creating a new array from the previous one
-      // ...starting from the first word in text untill the current word in the loop
+      /**
+       * create a new array from the previous one
+       * starting from the first word in text untill
+       * the word containing the target character
+       */
+
       .slice(0, wordIndex)
-      // Accumelating all word lengths starting from 0
-      // ...then adding the current charIndex to get the current global char index
+      /**
+       * Accumelate all word lengths starting from 0
+       * then add `charIndex`, which is its index in the parent word
+       * which then gives its global index in the text
+       */
       .reduce((c, p) => c + p, 0) + charIndex;
 
+  /**
+   * @description Get an array of children characters global indexes of a word in text
+   * @param {string} word Word target
+   * @param {number} wordIndex Word index in text
+   * @param {string} testText Text containing word
+   * @returns {Array} Array of children characters global indexes of word
+   */
   const getWordChildrenIndex = (word, wordIndex, testText) => {
     const wordChildrenIndex = word.split('').map((char, charIndex) => {
       const charGlobalIndex = getCharGlobalIndex(
@@ -72,101 +117,85 @@ function TestTerminal({
     return wordChildrenIndex;
   };
 
+  /**
+   * Create word and character elements to render on terminal
+   * @param {string} testText Text to load and use as test
+   */
   const loadTextContent = (testText) => {
-    const textContentComponents = testText.split(' ').map((word, wordIndex) => {
-      // eslint-disable-next-line no-param-reassign
-      word = word.split(' ');
+    const textContentComponents = testText
+      /** Create an array containing each word in the text */
+      .split(' ')
+      /** Loop through words array to create word elements */
+      .map((word, wordIndex) => {
+        /**
+         * if the last character in the first word is NOT '↵'
+         * and the next word after the current one is NOY the last word in text
+         * then add a space to the end of word
+         * otherwise leave the word as it is
+         */
+        word =
+          word[0].slice(-1) !== '↵' &&
+          wordIndex + 1 !== testText.split(' ').length
+            ? `${word} `
+            : word;
 
-      word[0].slice(-1) !== '↵' &&
-        wordIndex + 1 !== testText.split(' ').length &&
-        word.push(' ');
-
-      // eslint-disable-next-line no-param-reassign
-      word = word.join('');
-
-      const wordChild = (
-        <span
-          key={wordIndex}
-          ref={(el) => {
-            wordsRef.current[wordIndex] = el;
-          }}
-          className="word"
-          data-word-index={wordIndex}
-          data-children-index={getWordChildrenIndex(word, wordIndex, testText)}
-          data-last-word={wordIndex + 1 === testText.split(' ').length}
-        >
-          {word.split('').map((char, charIndex) => {
-            const charGlobalIndex = getCharGlobalIndex(
+        const wordChild = (
+          <span
+            key={wordIndex}
+            ref={(el) => {
+              wordsRef.current[wordIndex] = el;
+            }}
+            className="word"
+            data-word-index={wordIndex}
+            data-children-index={getWordChildrenIndex(
+              word,
               wordIndex,
-              charIndex,
               testText
-            );
+            )}
+            data-last-word={wordIndex + 1 === testText.split(' ').length}
+          >
+            {word
+              /** Create an array of characters in word */
+              .split('')
+              /** Loop through words array to create character children elements */
+              .map((char, charIndex) => {
+                const charGlobalIndex = getCharGlobalIndex(
+                  wordIndex,
+                  charIndex,
+                  testText
+                );
 
-            return (
-              <span
-                key={charIndex}
-                ref={(el) => {
-                  charsRef.current[charGlobalIndex] = el;
-                }}
-                className={`char${!charGlobalIndex ? ' char--current' : ''}${
-                  char === '↵' ? ' br' : ''
-                }`}
-                data-char-local-index={charIndex}
-                data-char-global-index={charGlobalIndex}
-                data-last-char={charIndex + 1 === word.split('').length}
-                data-parent-word-index={wordIndex}
-              >
-                {char}
-              </span>
-            );
-          })}
-        </span>
-      );
+                return (
+                  <span
+                    key={charIndex}
+                    ref={(el) => {
+                      charsRef.current[charGlobalIndex] = el;
+                    }}
+                    className={`char${
+                      !charGlobalIndex ? ' char--current' : ''
+                    }${char === '↵' ? ' br' : ''}`}
+                    data-char-local-index={charIndex}
+                    data-char-global-index={charGlobalIndex}
+                    data-last-char={charIndex + 1 === word.split('').length}
+                    data-parent-word-index={wordIndex}
+                  >
+                    {char}
+                  </span>
+                );
+              })}
+          </span>
+        );
 
-      return wordChild;
-    });
+        return wordChild;
+      });
 
+    /** Set text content state to the text content componenets created, to be then rendered */
     setTextContent(textContentComponents);
   };
 
-  useEffect(() => {
-    generatedTestText &&
-      generatedTestText !== undefined &&
-      generatedTestText !== '' &&
-      loadTextContent(generatedTestText);
-  }, [generatedTestText]);
-
-  useEffect(() => {
-    let intervalId;
-
-    if (state === 'start') {
-      intervalId = setInterval(() => {
-        if (state !== 'pause') {
-          setClock((prevState) => prevState - 1);
-
-          const remaning = new Date(clock * 1000).toISOString().substr(14, 5);
-
-          if (remaning === '00:00') {
-            setState('stop');
-          } else {
-            timeRef.current.innerText = remaning;
-          }
-        }
-      }, 1000);
-    } else if (state === 'finish') {
-      clearInterval(intervalId);
-      timeRef.current.style.color = 'green';
-    } else if (state === 'stop') {
-      clearInterval(intervalId);
-      timeRef.current.innerText = '00:00'; // "TIME IS OVER.";
-      timeRef.current.style.color = 'red';
-    }
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [state, clock]);
-
+  /** Calculate gross and net words typed per minute
+   * and update WPM paragraph element accordingly
+   */
   const calcWPM = () => {
     const minutes = (duration - clock) / 60;
 
@@ -188,6 +217,10 @@ function TestTerminal({
     wpmNetRef.current.innerText = `${Math.round(wpmNet)}`;
   };
 
+  /**
+   * Calculate gross and net accuracy of words typed
+   * and update accuracy paragraph element accordingly
+   */
   const calcAccuracy = () => {
     const wordsCorrect = parseInt(
       textRef.current.getAttribute('data-correct-words'),
@@ -218,16 +251,26 @@ function TestTerminal({
     accuracyNetRef.current.innerText = `${Math.round(accuracyNet)}%`;
   };
 
+  /**
+   * @description Handle printable keydown events, the backspace and enter are an exception
+   * - Calculate WPM and accuracy on each typed character and word
+   * - Change the style of the typed characters and words
+   * - Handle "delete" actions
+   *
+   * @param {object} event Event object
+   * @param {string} event.key Key name representing the the key pressed down
+   */
   const keydownHandler = ({ key }) => {
     const terminal = terminalsRef.current[refIndex];
 
+    /** If terminal active attribute is not set to `true` return and exit method */
     if (terminal && terminal.getAttribute('active') !== 'true') {
       return null;
     }
 
-    // TODO:Figure out why key doesn't match keyboard input
+    // TODO:Figure out why `key` doesn't match keyboard input
 
-    // TODO: use regexu to support old browsers that doesn't understand unicode ReGex
+    // TODO: use regexu to support old browsers that don't understand unicode ReGex
     if (key.match(/^[^\p{Cc}\p{Cn}\p{Cs}\p{Cf}]$|^\bEnter\b$/gu)) {
       const prevCaretPosition = parseInt(
         textRef.current.getAttribute('data-caret-position'),
@@ -353,26 +396,6 @@ function TestTerminal({
       const prevChar = charsRef.current[prevCaretPosition];
 
       if (prevChar) {
-        // TODO: Use the commented code block below in the future
-        // ...to prevent going back to incorrect words in strict mode
-
-        // const prevWord =
-        //   wordsRef.current[
-        //     parseInt(char.getAttribute('data-parent-word-index'), 10) - 1
-        //   ];
-
-        // const charLocalIndex = parseInt(
-        //   char.getAttribute('data-char-local-index'),
-        //   10
-        // );
-
-        // if (
-        //   !charLocalIndex &&
-        //   prevWord.classList.contains('word--incorrect')
-        // ) {
-        //   return null;
-        // }
-
         const prevWord =
           wordsRef.current[
             parseInt(char.getAttribute('data-parent-word-index'), 10) - 1
@@ -463,9 +486,72 @@ function TestTerminal({
     return null;
   };
 
+  /**
+   * @method useEffect
+   * @memberof TestTerminal
+   * @description Loads test text once `genereatedTestText` is available
+   * Dependencies: [`generatedTestText`]
+   */
+  useEffect(() => {
+    generatedTestText &&
+      generatedTestText !== undefined &&
+      generatedTestText !== '' &&
+      loadTextContent(generatedTestText);
+  }, [generatedTestText]);
+
+  /**
+   * @method useEffect
+   * @memberof TestTerminal
+   * @description Keep track of time and update time paragraph element accordingly
+   * ### Dependencies: [`state`, `clock`]
+   */
+  useEffect(() => {
+    let intervalId;
+
+    if (state === 'start') {
+      intervalId = setInterval(() => {
+        if (state !== 'pause') {
+          setClock((prevState) => prevState - 1);
+
+          const remaning = new Date(clock * 1000).toISOString().substr(14, 5);
+
+          if (remaning === '00:00') {
+            setState('stop');
+          } else {
+            timeRef.current.innerText = remaning;
+          }
+        }
+      }, 1000);
+    } else if (state === 'finish') {
+      clearInterval(intervalId);
+      timeRef.current.style.color = 'green';
+    } else if (state === 'stop') {
+      clearInterval(intervalId);
+      timeRef.current.innerText = '00:00'; // "TIME IS OVER.";
+      timeRef.current.style.color = 'red';
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [state, clock]);
+
+  /**
+   * @method useEffect
+   * @memberof TestTerminal
+   * @listens keydown - keydownHandler
+   * @description Adds and removes keydown event listener of keydownHanlder to and from the document
+   * ### Dependencies: [`state`, `clock`]
+   */
   useEffect(() => {
     document.addEventListener('keydown', keydownHandler);
 
+    /**
+     * Once test is finished or stoped:
+     * - remove keydown event listener
+     * - calculate WPM and accuracy
+     * - Make end dialog visible by setting `endDialog` state to `true`
+     */
     if (state === 'finish' || state === 'stop') {
       document.removeEventListener('keydown', keydownHandler);
       calcWPM();

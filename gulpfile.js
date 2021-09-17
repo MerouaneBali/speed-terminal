@@ -25,7 +25,7 @@ function watch() {
   gulp
     .watch(['./src/**/*.js', './src/**/*.jsx'])
     .on('change', generateDocumentation);
-  gulp.watch('./docs/**/*.*').on('change', browserSync.reload);
+  // gulp.watch('./docs/**/*.*').on('change', browserSync.reload);
 }
 
 exports.buildStyles = buildStyles;
