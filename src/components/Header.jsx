@@ -8,33 +8,62 @@ import '../css/components/Header.css';
  * @component
  *
  * @description Page navigation header
+ *
+ * @prop {boolean} contact Set contact state to `true`
+ * @prop {boolean} about Set about state to `true`
+ * @prop {boolean} community Set community state to `true`
+ * @prop {boolean} playground Set playground state to `true`
+ * @prop {boolean} start Set start state to `true`
+ * @prop {boolean} account Set account state to `true`
  */
-function Header() {
+function Header({
+  home,
+  contact,
+  about,
+  community,
+  playground,
+  start,
+  account,
+}) {
   return (
     <header>
       <div>
         <img src={logo} alt="LOGO" />
-        <p>Speed Terminal</p>
+        <button type="button" onClick={home}>
+          Speed Terminal
+        </button>
       </div>
       <nav>
         <ul>
           <li>
-            <p>Contact</p>
+            <button type="button" onClick={contact}>
+              Contact
+            </button>
           </li>
           <li>
-            <p>About</p>
+            <button type="button" onClick={about}>
+              About
+            </button>
           </li>
           <li>
-            <p>Community</p>
+            <button type="button" onClick={community}>
+              Community
+            </button>
           </li>
           <li>
-            <p>Playground</p>
+            <button type="button" onClick={playground}>
+              Playground
+            </button>
           </li>
           <li>
-            <p>Start</p>
+            <button type="button" onClick={start}>
+              Start
+            </button>
           </li>
           <li>
-            <p>Account</p>
+            <button type="button" onClick={account}>
+              Account
+            </button>
           </li>
         </ul>
       </nav>

@@ -6,6 +6,15 @@ header {
   align-items: center;
   justify-content: space-between;
 
+  button {
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
   div {
     display: flex;
     align-items: center;
@@ -21,10 +30,6 @@ header {
     justify-content: space-between;
     list-style: none;
     padding: 0;
-
-    li {
-      cursor: pointer;
-    }
 
     li + li {
       padding-left: 1.875em;
