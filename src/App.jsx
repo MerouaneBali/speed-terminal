@@ -16,7 +16,15 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Header
+        home={() => {}}
+        contact={() => {}}
+        about={() => {}}
+        community={() => {}}
+        playground={() => {}}
+        start={() => {}}
+        account={() => {}}
+      />
       {Terminals.map(
         (terminal, index) =>
           cloneElement(terminal, {
