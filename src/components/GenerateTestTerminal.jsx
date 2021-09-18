@@ -237,6 +237,10 @@ function GenerateTestTerminal({
     await setState('steady');
   };
 
+  useEffect(() => {
+    testTerminal && activateTerminal(terminalsRef, refIndex);
+  }, [testTerminal, terminalsRef, refIndex]);
+
   /**
    * @method useEffect
    *
