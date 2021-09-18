@@ -242,6 +242,23 @@ function GenerateTestTerminal({
    *
    * @memberof GenerateTestTerminal
    *
+   * @description Convert duration state to ISO date string if it was type of number,
+   * this is due to duration coming from {@link TestTerminal} in seconds
+   * when {@link TestEndDialogTerminal} fires [generateNewTest]{@link TestTerminal~generateNewTest}
+   */
+  useEffect(() => {
+    typeof duration === 'number' &&
+      setDuration(
+        (prevState) => new Date(prevState * 1000).toISOString().substr(14, 5)
+        // eslint-disable-next-line function-paren-newline
+      );
+  }, []);
+
+  /**
+   * @method useEffect
+   *
+   * @memberof GenerateTestTerminal
+   *
    * @description Set {@link SearchTopicTerminal} active attribute to `true`
    *
    * Dependencies: [`searchTopic`]

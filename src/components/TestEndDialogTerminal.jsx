@@ -16,13 +16,22 @@ import '../css/components/TestEndDialogTerminal.css';
  * @prop {object} props.innerRef External reference hook for the terminal
  * @prop {boolean} props.endDialog State of test end dialog terminal visiblity
  * @prop {function} props.setEndDialog Set endDialog state function
+ * @prop {function} props.restart Restart test states and attributes
+ * @prop {function} props.generateNewTest Unmount {@link TestTerminal}
+ * and mount {@link GenerateTestTerminal} test
  *
  * @requires useLayoutEffect
  * @requires Terminal
  * @requires Menu
  * @requires MenuButton
  */
-function TestEndDialogTerminal({ innerRef, endDialog, setEndDialog }) {
+function TestEndDialogTerminal({
+  innerRef,
+  endDialog,
+  setEndDialog,
+  restart,
+  generateNewTest,
+}) {
   const styles = {
     menuItem: {
       fontWeight: '400',
@@ -38,12 +47,12 @@ function TestEndDialogTerminal({ innerRef, endDialog, setEndDialog }) {
     <MenuButton
       label="Restart"
       style={styles.menuItem}
-      onClickHandler={() => {}}
+      onClickHandler={async () => restart()}
     />,
     <MenuButton
       label="Generate new test"
       style={styles.menuItem}
-      onClickHandler={() => {}}
+      onClickHandler={async () => generateNewTest()}
     />,
   ];
 

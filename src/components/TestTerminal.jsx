@@ -252,6 +252,72 @@ function TestTerminal({
   };
 
   /**
+   * Reset all states and attributes of the test
+   */
+  const restart = async () => {
+    /** Set state of test to restart,
+     * overriding 'finish' and 'stop' states
+     * allowing this method to change states that are used in other lifecycles methods
+     * without them firing any events
+     */
+    await setState('restart');
+
+    const text = textRef.current;
+
+    text.setAttribute('data-caret-position', -1);
+    text.setAttribute('data-typed-chars', 0);
+    text.setAttribute('data-correct-chars', 0);
+    text.setAttribute('data-incorrect-chars', 0);
+    text.setAttribute('data-typed-words', 0);
+    text.setAttribute('data-correct-words', 0);
+    text.setAttribute('data-incorrect-words', 0);
+
+    await wordsRef.current.map(async (word) => {
+      word.classList.remove(
+        'word--current',
+        'word--typed',
+        'word--correct',
+        'word--incorrect'
+      );
+
+      word
+        .getAttribute('data-children-index')
+        .split(',')
+        .map((charIndex) => charsRef.current[parseInt(charIndex, 10)])
+        .map(
+          (character) =>
+            character.classList.remove(
+              'char--current',
+              'char--typed',
+              'char--correct',
+              'char--incorrect'
+            )
+          // eslint-disable-next-line function-paren-newline
+        );
+
+      return null;
+    });
+
+    charsRef.current[0].classList.add('char--current');
+
+    await setClock(duration);
+
+    timeRef.current.style.color = 'white';
+    wpmNetRef.current.innerText = '0';
+    accuracyNetRef.current.innerText = '0%';
+
+    await setState('steady');
+
+    await setEndDialog(false);
+  };
+
+  /**
+   * Set state of test to 'ready',
+   * unmounting this component and mountring {@link GenerateTestTerminal}
+   */
+  const generateNewTest = () => setState('ready');
+
+  /**
    * @description Handle printable keydown events, the backspace and enter are an exception
    * - Calculate WPM and accuracy on each typed character and word
    * - Change the style of the typed characters and words
@@ -524,11 +590,11 @@ function TestTerminal({
       }, 1000);
     } else if (state === 'finish') {
       clearInterval(intervalId);
-      timeRef.current.style.color = 'green';
+      timeRef.current.style = 'green';
     } else if (state === 'stop') {
       clearInterval(intervalId);
       timeRef.current.innerText = '00:00'; // "TIME IS OVER.";
-      timeRef.current.style.color = 'red';
+      timeRef.current.style = 'red';
     }
 
     return () => {
@@ -611,6 +677,8 @@ function TestTerminal({
         innerRef={endDialogRef}
         endDialog={endDialog}
         setEndDialog={setEndDialog}
+        restart={restart}
+        generateNewTest={generateNewTest}
       />
     </>
   );
