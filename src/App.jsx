@@ -6,7 +6,7 @@ import Test from './components/Test';
 import './css/style.css';
 
 function App() {
-  const [testTerminal, setTestTerminal] = useState(true);
+  const [testTerminal, setTestTerminal] = useState(false);
 
   const terminalsRef = useRef([]);
 
@@ -22,7 +22,7 @@ function App() {
         about={() => {}}
         community={() => {}}
         playground={() => {}}
-        start={() => {}}
+        start={() => setTestTerminal(true)}
         account={() => {}}
       />
       {Terminals.map(
