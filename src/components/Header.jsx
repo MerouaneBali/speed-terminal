@@ -13,17 +13,19 @@ import '../css/components/Header.css';
  * @prop {boolean} about Set about state to `true`
  * @prop {boolean} community Set community state to `true`
  * @prop {boolean} playground Set playground state to `true`
+ * @prop {boolean} classroom Set classroom state to `true`
  * @prop {boolean} start Set start state to `true`
  * @prop {boolean} account Set account state to `true`
  */
 function Header({
   home,
-  contact,
-  about,
-  community,
-  playground,
-  start,
   account,
+  start,
+  classroom,
+  playground,
+  community,
+  about,
+  contact,
 }) {
   return (
     <header>
@@ -53,6 +55,11 @@ function Header({
           <li>
             <button type="button" onClick={playground}>
               Playground
+            </button>
+          </li>
+          <li>
+            <button type="button" onClick={classroom}>
+              Classroom
             </button>
           </li>
           <li>

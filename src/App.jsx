@@ -27,6 +27,7 @@ function App() {
         contact={() => {}}
         about={() => setAboutTerminal(true)}
         community={() => {}}
+        classroom={() => {}}
         playground={() => {}}
         start={() => setTestTerminal(true)}
         account={() => {}}
