@@ -8,6 +8,8 @@ import Expand from '../svg/expand.svg';
 import Minimize from '../svg/minimize.svg';
 import Close from '../svg/close.svg';
 
+import activateTerminal from '../utils/activateTerminal';
+
 import '../css/components/Terminal.css';
 
 /**
@@ -17,6 +19,8 @@ import '../css/components/Terminal.css';
  *
  * @prop {object} props React props
  * @prop {object} props.innerRef External reference hook for the terminal
+ * @prop {number} props.refIndex Index of current terminal in terminalsRef
+ * @prop {object} props.terminalsRef Reference hook containing an array of terminals hooks
  * @prop {string} props.id Id for div container
  * @prop {string} props.className className for div container
  * @prop {boolean} props.visible Visible state of terminal
@@ -32,6 +36,8 @@ import '../css/components/Terminal.css';
  */
 function Terminal({
   innerRef,
+  refIndex,
+  terminalsRef,
   id,
   className,
   visible,
@@ -106,6 +112,16 @@ function Terminal({
     terminal.style.width = prevWidth;
     terminal.style.transform = prevTransform;
   };
+
+  /**
+   * @method useEffect
+   * @memberof Terminal
+   * @description Set terminal's `active` attribute to `true` once visible
+   * ### Dependencies: [`visible`, `terminalsRef`, `refIndex`]
+   */
+  useEffect(() => {
+    visible && activateTerminal(terminalsRef, refIndex);
+  }, [visible, terminalsRef, refIndex]);
 
   /**
    * @method useEffect

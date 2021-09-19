@@ -643,6 +643,8 @@ function TestTerminal({
     <>
       <Terminal
         innerRef={innerRef}
+        refIndex={refIndex}
+        terminalsRef={terminalsRef}
         id="test-terminal"
         title="Test"
         expandable
@@ -684,6 +686,8 @@ function TestTerminal({
 
       <TestEndDialogTerminal
         innerRef={endDialogRef}
+        refIndex={refIndex}
+        terminalsRef={terminalsRef}
         endDialog={endDialog}
         setEndDialog={setEndDialog}
         restart={restart}

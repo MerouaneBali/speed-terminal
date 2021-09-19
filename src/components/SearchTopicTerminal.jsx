@@ -17,6 +17,8 @@ import MenuButton from './MenuButton';
  *
  * @prop {object} props React props
  * @prop {object} props.innerRef External reference hook for the terminal
+ * @prop {number} props.refIndex Index of current terminal in terminalsRef
+ * @prop {object} props.terminalsRef Reference hook containing an array of terminals hooks
  * @prop {boolean} props.searchTopic State of search topic terminal visiblity
  * @prop {function} props.setSearchTopic Set searchTopic state function
  * @prop {number} props.topic Topic state
@@ -33,6 +35,8 @@ import MenuButton from './MenuButton';
  */
 function SearchTopicTerminal({
   innerRef,
+  refIndex,
+  terminalsRef,
   searchTopic,
   setSearchTopic,
   topic,
@@ -138,6 +142,8 @@ function SearchTopicTerminal({
   return (
     <Terminal
       innerRef={innerRef}
+      refIndex={refIndex}
+      terminalsRef={terminalsRef}
       id="search-topic-terminal"
       title="Generate Test / Topic"
       expandable

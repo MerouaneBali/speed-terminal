@@ -14,6 +14,8 @@ import '../css/components/TestEndDialogTerminal.css';
  *
  * @prop {object} props React props
  * @prop {object} props.innerRef External reference hook for the terminal
+ * @prop {number} props.refIndex Index of current terminal in terminalsRef
+ * @prop {object} props.terminalsRef Reference hook containing an array of terminals hooks
  * @prop {boolean} props.endDialog State of test end dialog terminal visiblity
  * @prop {function} props.setEndDialog Set endDialog state function
  * @prop {function} props.restart Restart test states and attributes
@@ -27,6 +29,8 @@ import '../css/components/TestEndDialogTerminal.css';
  */
 function TestEndDialogTerminal({
   innerRef,
+  refIndex,
+  terminalsRef,
   endDialog,
   setEndDialog,
   restart,
@@ -63,6 +67,8 @@ function TestEndDialogTerminal({
   return (
     <Terminal
       innerRef={innerRef}
+      refIndex={refIndex}
+      terminalsRef={terminalsRef}
       id="end-dialog-terminal"
       title="You're Done!"
       expandable={false}

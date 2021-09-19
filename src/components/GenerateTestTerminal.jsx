@@ -275,7 +275,10 @@ function GenerateTestTerminal({
    * Dependencies: [`searchTopic`]
    */
   useEffect(() => {
-    searchTopic && searchTopicRef.current.setAttribute('active', true);
+    if (searchTopic) {
+      terminalsRef.current[refIndex].setAttribute('active', false);
+      searchTopicRef.current.setAttribute('active', true);
+    }
   }, [searchTopic]);
 
   const menuItems = [
@@ -323,6 +326,8 @@ function GenerateTestTerminal({
     <>
       <Terminal
         innerRef={innerRef}
+        refIndex={refIndex}
+        terminalsRef={terminalsRef}
         id="generate-test-terminal"
         title="Generate Test"
         expandable={false}
