@@ -6,7 +6,6 @@ import getRandomTopic from '../utils/getRandomTopic';
 
 import Terminal from './Terminal';
 import Menu from './Menu';
-import MenuInput from './MenuInput';
 import MenuCheckbox from './MenuCheckbox';
 import MenuSelect from './MenuSelect';
 import MenuButton from './MenuButton';
@@ -61,6 +60,14 @@ function GenerateTestTerminal({
   duration,
   setDuration,
 }) {
+  const [durations, setDurations] = useState([
+    '01:00',
+    '03:00',
+    '05:00',
+    '10:00',
+    '15:00',
+  ]);
+
   const [topic, setTopic] = useState('random');
 
   const searchTopicRef = useRef();
@@ -272,13 +279,13 @@ function GenerateTestTerminal({
   }, [searchTopic]);
 
   const menuItems = [
-    <MenuInput
+    <MenuSelect
       id="Time"
       label="Time"
-      type="text"
-      placeholder={duration}
-      value={duration}
-      setValue={setDuration}
+      options={durations}
+      setOptions={setDurations}
+      selectedOption={duration}
+      setSelectedOption={setDuration}
     />,
     <MenuButton
       id="Topic"
@@ -298,20 +305,12 @@ function GenerateTestTerminal({
       selectedOption={selectedCasing}
       setSelectedOption={setSelectedCasing}
     />,
-    // <MenuCheckbox label="Digits" checked={digits} setChecked={setDigits} />,
     <MenuCheckbox
       id="Backspace"
       label="Backspace"
       checked={backspace}
       setChecked={setBackspace}
     />,
-    // <MenuSelect
-    //   label="Accuracy mode"
-    //   options={accuracyModes}
-    //   setOptions={setAccuracyModes}
-    //   selectedOption={selectAccuracyMode}
-    //   setSelectedOption={setSelectAccuracyMode}
-    // />,
     <MenuButton
       id="Start test"
       label="Start test"
