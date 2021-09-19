@@ -110,42 +110,44 @@ function Terminal({
   /**
    * @method useEffect
    * @memberof Terminal
-   * @description Load initial size of terminal,
+   * @description Load initial size of terminal once visible,
    * and set prev-height, prev-width and prev-transform attributes
-   * ### Dependencies: [`terminalRef`]
+   * ### Dependencies: [`terminalRef`, `visible`]
    */
   useEffect(() => {
     const terminal = terminalRef.current;
 
-    if (initSize) {
-      if (initSize === 'expanded') {
-        expand();
-      } else {
-        terminal.height = initSize.height;
-        terminal.width = initSize.width;
+    if (visible) {
+      if (initSize) {
+        if (initSize === 'expanded') {
+          expand();
+        } else {
+          terminal.height = initSize.height;
+          terminal.width = initSize.width;
+        }
       }
-    }
 
-    if (terminal) {
-      if (initSize === 'expanded') {
-        terminal.setAttribute('prev-height', '50%');
-        terminal.setAttribute('prev-width', '50%');
-      } else {
-        terminal.setAttribute(
-          'prev-height',
-          window.getComputedStyle(terminal).height
-        );
-        terminal.setAttribute(
-          'prev-width',
-          window.getComputedStyle(terminal).width
-        );
-        terminal.setAttribute(
-          'prev-transform',
-          window.getComputedStyle(terminal).transform
-        );
+      if (terminal) {
+        if (initSize === 'expanded') {
+          terminal.setAttribute('prev-height', '50%');
+          terminal.setAttribute('prev-width', '50%');
+        } else {
+          terminal.setAttribute(
+            'prev-height',
+            window.getComputedStyle(terminal).height
+          );
+          terminal.setAttribute(
+            'prev-width',
+            window.getComputedStyle(terminal).width
+          );
+          terminal.setAttribute(
+            'prev-transform',
+            window.getComputedStyle(terminal).transform
+          );
+        }
       }
     }
-  }, [terminalRef]);
+  }, [terminalRef, visible]);
 
   /**
    * @method useEffect
