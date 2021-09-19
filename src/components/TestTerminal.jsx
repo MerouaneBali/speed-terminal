@@ -318,6 +318,15 @@ function TestTerminal({
   const generateNewTest = () => setState('ready');
 
   /**
+   * setState to 'ready' reseting the test to "generate test" phane,
+   * and setting testTerminal state to false unmounting the component
+   */
+  const unmountSelf = () => {
+    setState('ready');
+    setTestTerminal(false);
+  };
+
+  /**
    * @description Handle printable keydown events, the backspace and enter are an exception
    * - Calculate WPM and accuracy on each typed character and word
    * - Change the style of the typed characters and words
@@ -590,11 +599,11 @@ function TestTerminal({
       }, 1000);
     } else if (state === 'finish') {
       clearInterval(intervalId);
-      timeRef.current.style = 'green';
+      timeRef.current.style.color = 'green';
     } else if (state === 'stop') {
       clearInterval(intervalId);
       timeRef.current.innerText = '00:00'; // "TIME IS OVER.";
-      timeRef.current.style = 'red';
+      timeRef.current.style.color = 'red';
     }
 
     return () => {
@@ -639,7 +648,7 @@ function TestTerminal({
         expandable
         initSize="expanded"
         visible={testTerminal}
-        unmountSelf={() => setTestTerminal(false)}
+        unmountSelf={unmountSelf}
         onMouseDown={() => activateTerminal(terminalsRef, refIndex)}
       >
         <div id="test-terminal__text_container">
