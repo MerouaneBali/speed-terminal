@@ -1,4 +1,5 @@
 import React, { useState, useRef, cloneElement } from 'react';
+import AboutTerminal from './components/AboutTerminal';
 
 import Header from './components/Header';
 import Test from './components/Test';
@@ -7,11 +8,16 @@ import './css/style.css';
 
 function App() {
   const [testTerminal, setTestTerminal] = useState(false);
+  const [aboutTerminal, setAboutTerminal] = useState(false);
 
   const terminalsRef = useRef([]);
 
   const Terminals = [
     <Test testTerminal={testTerminal} setTestTerminal={setTestTerminal} />,
+    <AboutTerminal
+      aboutTerminal={aboutTerminal}
+      setAboutTerminal={setAboutTerminal}
+    />,
   ];
 
   return (
@@ -19,7 +25,7 @@ function App() {
       <Header
         home={() => {}}
         contact={() => {}}
-        about={() => {}}
+        about={() => setAboutTerminal(true)}
         community={() => {}}
         playground={() => {}}
         start={() => setTestTerminal(true)}

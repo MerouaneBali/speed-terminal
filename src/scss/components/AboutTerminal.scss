@@ -1,0 +1,28 @@
+@use '../base/colors' as *;
+
+#about-terminal {
+  .terminal__body {
+    display: flex;
+    flex-direction: column;
+
+    section {
+      h1 {
+        font-size: clamp(1.2rem, 1.125vw, 1.125rem);
+        color: $success;
+      }
+
+      p {
+        margin-top: 2.5em;
+        margin-top: 1.125em;
+
+        b {
+          color: $success;
+        }
+      }
+    }
+
+    section + section {
+      margin-top: 2.5em;
+    }
+  }
+}
