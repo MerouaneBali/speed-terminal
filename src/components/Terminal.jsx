@@ -28,6 +28,8 @@ import '../css/components/Terminal.css';
  * @prop {boolean} props.disabled Disabled state of terminal
  * @prop {string} props.title Title of terminal
  * @prop {boolean} props.expandable Expand button visibility state
+ * @prop {boolean} props.resizable Resize condition used by `resizeMoveListener()`,
+ * defaults to `true`
  * @prop {string|object} props.initSize Initial size of terminal
  * @prop {function} props.unmountSelf Unmount function of terminal, setting terminal state to false
  * @prop {function} props.onMouseDown On mouse down function of terminal
@@ -45,6 +47,7 @@ function Terminal({
   disabled,
   title,
   expandable,
+  resizable,
   initSize,
   unmountSelf,
   children,
@@ -102,8 +105,6 @@ function Terminal({
     const prevHeight = terminal.getAttribute('prev-height');
     const prevWidth = terminal.getAttribute('prev-width');
     const prevTransform = terminal.getAttribute('prev-transform');
-
-    console.log(prevHeight, prevWidth, prevTransform);
 
     // TODO: add transition animation using JS
     terminal.style.top = '';
@@ -193,7 +194,7 @@ function Terminal({
     }
 
     function resizeMoveListener(event) {
-      if (!disabled) {
+      if (!disabled && resizable) {
         const { target } = event;
 
         let x = parseFloat(target.getAttribute('data-x')) || 0;
