@@ -8,6 +8,7 @@ import './css/style.css';
 
 function App() {
   const [testTerminal, setTestTerminal] = useState(false);
+
   const [aboutTerminal, setAboutTerminal] = useState(false);
 
   const terminalsRef = useRef([]);
@@ -26,11 +27,7 @@ function App() {
         home={() => {}}
         contact={() => {}}
         about={() => setAboutTerminal(true)}
-        community={() => {}}
-        classroom={() => {}}
-        playground={() => {}}
         start={() => setTestTerminal(true)}
-        account={() => {}}
       />
       {Terminals.map(
         (terminal, index) =>

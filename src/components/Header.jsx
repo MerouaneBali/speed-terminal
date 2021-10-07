@@ -11,22 +11,9 @@ import '../css/components/Header.css';
  *
  * @prop {boolean} contact Set contact state to `true`
  * @prop {boolean} about Set about state to `true`
- * @prop {boolean} community Set community state to `true`
- * @prop {boolean} playground Set playground state to `true`
- * @prop {boolean} classroom Set classroom state to `true`
  * @prop {boolean} start Set start state to `true`
- * @prop {boolean} account Set account state to `true`
  */
-function Header({
-  home,
-  account,
-  start,
-  classroom,
-  playground,
-  community,
-  about,
-  contact,
-}) {
+function Header({ home, start, about, contact }) {
   return (
     <header>
       <div>
@@ -48,28 +35,8 @@ function Header({
             </button>
           </li>
           <li>
-            <button type="button" onClick={community}>
-              Community
-            </button>
-          </li>
-          <li>
-            <button type="button" onClick={playground}>
-              Playground
-            </button>
-          </li>
-          <li>
-            <button type="button" onClick={classroom}>
-              Classroom
-            </button>
-          </li>
-          <li>
             <button type="button" onClick={start}>
               Start
-            </button>
-          </li>
-          <li>
-            <button type="button" onClick={account}>
-              Account
             </button>
           </li>
         </ul>
