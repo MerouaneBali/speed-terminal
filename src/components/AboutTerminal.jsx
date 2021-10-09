@@ -36,6 +36,7 @@ function AboutTerminal({
       id="about-terminal"
       title="About Us"
       expandable
+      resizable
       initSize="expanded"
       visible={aboutTerminal}
       unmountSelf={() => setAboutTerminal(false)}
