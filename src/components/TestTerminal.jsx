@@ -821,7 +821,6 @@ function TestTerminal({
             bot.width = 72;
             bot.anchor.y = 0.5;
             bot.x = 0;
-            bot.y = (laneHeight / 2) * 7;
             bot.y = laneHeight * index + laneHeight / 2;
 
             bot.animationSpeed = 0.15;
