@@ -4,6 +4,14 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import * as PIXI from 'pixi.js';
+
+import dinoSpritesheetJSON from '../sprites/dinosaur_racing/spritesheet.json';
+import dinoGreen from '../sprites/dinosaur_racing/green.png';
+import dinoYellow from '../sprites/dinosaur_racing/yellow.png';
+import dinoRed from '../sprites/dinosaur_racing/red.png';
+import dinoBlue from '../sprites/dinosaur_racing/blue.png';
+
 import activateTerminal from '../utils/activateTerminal';
 
 import Terminal from './Terminal';
@@ -27,6 +35,7 @@ import '../css/components/TestTerminal.css';
  * @prop {function} props.setState Set state function
  * @prop {number} props.duration Duration state
  * @prop {function} props.generatedTestText generatedTestText state
+ * @prop {function} props.gameMode Used to render a fun visual representation of users progress
  *
  * @requires useState
  * @requires useRef
@@ -44,6 +53,7 @@ function TestTerminal({
   setState,
   generatedTestText,
   duration,
+  gameMode,
 }) {
   const [endDialog, setEndDialog] = useState(false);
   const endDialogRef = useRef();
@@ -51,6 +61,11 @@ function TestTerminal({
   const [clock, setClock] = useState(duration);
   const [textContent, setTextContent] = useState([]);
 
+  const [spritesSwapperIntervalId, setSpritesSwapperIntervalId] = useState();
+
+  const canvasContainerRef = useRef();
+
+  const textContainerRef = useRef();
   const textRef = useRef();
   const wordsRef = useRef([]);
   const charsRef = useRef([]);
@@ -58,6 +73,93 @@ function TestTerminal({
   const timeRef = useRef();
   const wpmNetRef = useRef();
   const accuracyNetRef = useRef();
+
+  /**
+   * Get sprite textures from spritesheet and frame them
+   * @param {object} spritesheetPNG Target spritesheet
+   * @param {object} spritesheetJSON JSON object representing spirtesheet data
+   * @param {number} from Start of spritesheet selection range
+   * @param {number} to End of spritesheet selection range
+   * @returns {Array} Textures of spritesheet
+   */
+  const getSpritesheetTextures = (
+    spritesheetPNG,
+    spritesheetJSON,
+    from,
+    to
+  ) => {
+    const frames = Object.keys(spritesheetJSON.frames)
+      .slice(from, to)
+      .map((frame) => ({
+        name: frame,
+        frame: spritesheetJSON.frames[frame].frame,
+      }));
+
+    // eslint-disable-next-line no-unused-vars
+    const textures = frames.map(({ name, frame }) => {
+      const { x, y, h, w } = frame;
+      const frameRec = new PIXI.Rectangle(x, y, h, w);
+
+      const texture = PIXI.Texture.from(spritesheetPNG);
+
+      const cloneTexture = texture.clone();
+      cloneTexture.frame = frameRec;
+
+      return cloneTexture;
+    });
+
+    return textures;
+  };
+
+  /**
+   * Swap sprite textures with new onces based on WPM speed
+   * @param {object} sprite Target sprite
+   * @param {object} spritesheet Parent spritesheet
+   * @param {object} spritesheetJSON Parent spritesheet JSON object representing spirtesheet data
+   * @param {number} wpm Current WPM speed
+   */
+  const swapAnimatedSpriteTextures = (
+    sprite,
+    spritesheet,
+    spritesheetJSON,
+    wpm
+  ) => {
+    if (wpm < 20) {
+      sprite.textures = getSpritesheetTextures(
+        spritesheet,
+        spritesheetJSON,
+        0,
+        3
+      );
+    } else if (wpm >= 20 && wpm < 30) {
+      sprite.textures = getSpritesheetTextures(
+        spritesheet,
+        spritesheetJSON,
+        4,
+        9
+      );
+    } else if (wpm >= 30) {
+      sprite.textures = getSpritesheetTextures(
+        spritesheet,
+        spritesheetJSON,
+        18
+      );
+    }
+
+    return sprite.play();
+  };
+
+  /**
+   * Generate a random WPM from the provided range of min and max
+   * @param {number} [min=20] Min WPM
+   * @param {number} [max=40] Max WPM
+   * @returns {number} Random WPM
+   */
+  const genRandomWPM = (min = 20, max = 40) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
+  };
 
   /**
    * @description Get global index of character in text from its index in word parent
@@ -313,15 +415,30 @@ function TestTerminal({
 
   /**
    * Set state of test to 'ready',
+   * And in case gameMode is on, clear all intervals used to swap sprites textures
    * unmounting this component and mountring {@link GenerateTestTerminal}
    */
-  const generateNewTest = () => setState('ready');
+  const generateNewTest = () => {
+    gameMode &&
+      spritesSwapperIntervalId &&
+      Object.keys(spritesSwapperIntervalId).map(
+        (key) => clearInterval(spritesSwapperIntervalId[key])
+        // eslint-disable-next-line function-paren-newline
+      );
+    setState('ready');
+  };
 
   /**
    * setState to 'ready' reseting the test to "generate test" phane,
    * and setting testTerminal state to false unmounting the component
    */
   const unmountSelf = () => {
+    gameMode &&
+      spritesSwapperIntervalId &&
+      Object.keys(spritesSwapperIntervalId).map(
+        (key) => clearInterval(spritesSwapperIntervalId[key])
+        // eslint-disable-next-line function-paren-newline
+      );
     setState('ready');
     setTestTerminal(false);
   };
@@ -639,6 +756,220 @@ function TestTerminal({
     };
   }, [state, clock]);
 
+  /**
+   * @method useEffect
+   * @memberof TestTerminal
+   * @description Handles PIXI WebGL renderer
+   * ### Dependencies: [gameMode, innerRef, terminalsRef, refIndex, canvasContainerRef, textRef]
+   *
+   * @todo Document inner code
+   */
+  useEffect(() => {
+    const terminal = terminalsRef.current[refIndex];
+    const canvasContainer = canvasContainerRef.current;
+    const text = textRef.current;
+
+    const app = new PIXI.Application({
+      backgroundColor: 'transparent' || 0xffffff,
+      antialias: true,
+      resolution: window.devicePixelRatio,
+    });
+
+    PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+    PIXI.settings.RESOLUTION = 1;
+    PIXI.utils.clearTextureCache();
+
+    if (gameMode && terminal && canvasContainer && text) {
+      canvasContainer.appendChild(app.view);
+
+      app.resizeTo = canvasContainer;
+
+      // eslint-disable-next-line no-unused-vars
+      const setup = (loader, resources) => {
+        const [laneGreen, laneRed, laneYellow, laneBlue] = [
+          0xb6ff00, 0xff0000, 0xffae00, 0x0094ff,
+        ].map(
+          (color, index) =>
+            new PIXI.Graphics()
+              .beginFill(color)
+              .drawRect(
+                0,
+                0 || (app.renderer.height / 4) * index,
+                app.renderer.width,
+                app.renderer.height / 4
+              )
+          // eslint-disable-next-line function-paren-newline
+        );
+
+        const [green, red, yellow, blue] = Object.keys(resources).map(
+          (spriteKey, index) => {
+            const bot = new PIXI.AnimatedSprite(
+              getSpritesheetTextures(
+                resources[spriteKey].url,
+                dinoSpritesheetJSON,
+                0,
+                4
+              )
+            );
+            const laneHeight = app.renderer.height / 4;
+
+            bot.sprite = resources[spriteKey].url;
+            bot.spritesheetJSON = dinoSpritesheetJSON;
+            bot.wpm = genRandomWPM(); // wpm;
+
+            bot.height = 72;
+            bot.width = 72;
+            bot.anchor.y = 0.5;
+            bot.x = 0;
+            bot.y = (laneHeight / 2) * 7;
+            bot.y = laneHeight * index + laneHeight / 2;
+
+            bot.animationSpeed = 0.15;
+            bot.play();
+
+            return bot;
+          }
+        );
+
+        app.stage.addChild(
+          laneGreen,
+          green,
+
+          laneRed,
+          red,
+
+          laneYellow,
+          yellow,
+
+          laneBlue,
+          blue
+        );
+
+        app.ticker.add(() => {
+          if (textRef.current) {
+            const wordsTotal = parseInt(textRef.current.childElementCount, 10);
+            const wordsTyped = parseInt(
+              textRef.current.getAttribute('data-typed-words'),
+              10
+            );
+
+            green.x = (app.renderer.width / wordsTotal) * wordsTyped;
+
+            if (
+              parseInt(
+                textRef.current.getAttribute('data-caret-position'),
+                10
+              ) < 0
+            ) {
+              [red, yellow, blue].map((bot) => {
+                bot.x = 0;
+                return null;
+              });
+            }
+          }
+        });
+
+        const intervalKey = green.sprite;
+
+        const intervalId = setInterval(() => {
+          const wordsTotal = parseInt(textRef.current.childElementCount, 10);
+          const wordsTyped = parseInt(
+            textRef.current.getAttribute('data-typed-words'),
+            10
+          );
+
+          if (
+            parseInt(textRef.current.getAttribute('data-correct-chars'), 10) &&
+            window.getComputedStyle(timeRef.current).color ===
+              'rgb(255, 255, 255)' &&
+            wordsTyped < wordsTotal
+          ) {
+            swapAnimatedSpriteTextures(
+              green,
+              green.sprite,
+              green.spritesheetJSON,
+              parseInt(wpmNetRef.current.innerText, 10)
+            );
+          } else {
+            swapAnimatedSpriteTextures(
+              green,
+              green.sprite,
+              green.spritesheetJSON,
+              0
+            );
+          }
+        }, 1000);
+
+        setSpritesSwapperIntervalId({ [intervalKey]: intervalId });
+
+        [red, yellow, blue].map((bot) => {
+          const wordsTotal = parseInt(textRef.current.childElementCount, 10);
+
+          const botIntervalKey = bot.sprite;
+
+          const botIntervalId = setInterval(() => {
+            if (
+              parseInt(
+                textRef.current.getAttribute('data-correct-chars'),
+                10
+              ) &&
+              window.getComputedStyle(timeRef.current).color ===
+                'rgb(255, 255, 255)' &&
+              bot.x + app.renderer.width / wordsTotal <
+                parseInt(
+                  window.getComputedStyle(canvasContainer).width.slice(0, -2),
+                  10
+                )
+            ) {
+              bot.x += app.renderer.width / wordsTotal;
+
+              swapAnimatedSpriteTextures(
+                bot,
+                bot.sprite,
+                bot.spritesheetJSON,
+                bot.wpm
+              );
+            } else {
+              swapAnimatedSpriteTextures(
+                bot,
+                bot.sprite,
+                bot.spritesheetJSON,
+                0
+              );
+            }
+          }, (((wordsTotal / bot.wpm) * 60) / wordsTotal) * 1000);
+
+          setSpritesSwapperIntervalId((prevState) => ({
+            ...prevState,
+            [botIntervalKey]: botIntervalId,
+          }));
+
+          return null;
+        });
+      };
+
+      const loader = PIXI.Loader.shared;
+
+      loader
+        .reset()
+        .add([
+          { name: 'dinoGreen', url: dinoGreen },
+          { name: 'dinoRed', url: dinoRed },
+          { name: 'dinoYellow', url: dinoYellow },
+          { name: 'dinoBlue', url: dinoBlue },
+        ])
+        .load(setup);
+
+      app.start();
+    }
+
+    return () => {
+      PIXI.Ticker.system.stop();
+      app.ticker.stop();
+      app.destroy(true, true, true, true);
+    };
+  }, [gameMode, innerRef, terminalsRef, refIndex, canvasContainerRef, textRef]);
+
   return (
     <>
       <Terminal
@@ -647,13 +978,22 @@ function TestTerminal({
         terminalsRef={terminalsRef}
         id="test-terminal"
         title="Test"
-        expandable
+        expandable={!gameMode}
+        resizable={!gameMode}
         initSize="expanded"
         visible={testTerminal}
         unmountSelf={unmountSelf}
         onMouseDown={() => activateTerminal(terminalsRef, refIndex)}
       >
-        <div id="test-terminal__text_container">
+        {gameMode && (
+          <div ref={canvasContainerRef} id="test-terminal__canvas_container" />
+        )}
+
+        <div
+          ref={textContainerRef}
+          id="test-terminal__text_container"
+          game-mode={gameMode.toString()}
+        >
           <p
             ref={textRef}
             data-caret-position="-1"

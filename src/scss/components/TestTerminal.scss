@@ -53,9 +53,17 @@
       }
     }
 
+    #test-terminal__canvas_container {
+      height: 50%;
+    }
+
     #test-terminal__text_container {
       height: calc(100% - 2.5rem - 1.125rem - 2.5em);
       overflow-y: scroll;
+
+      &[game-mode='true'] {
+        height: calc(100% - 2.5rem - 1.125rem - 2.5em - 50% - 1.25em);
+      }
     }
 
     #test-terminal__results_panel {
