@@ -147,6 +147,7 @@ function SearchTopicTerminal({
       id="search-topic-terminal"
       title="Generate Test / Topic"
       expandable
+      resizable
       visible={searchTopic}
       unmountSelf={() => setSearchTopic(false)}
       onMouseDown={() => innerRef.current.setAttribute('active', true)}
