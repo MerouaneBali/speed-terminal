@@ -29,6 +29,7 @@ function Test({
 }) {
   const [state, setState] = useState('ready');
   const [duration, setDuration] = useState('01:00');
+  const [gameMode, setGameMode] = useState(false);
   const [generatedTestText, setGeneratedTestText] = useState();
 
   return state === 'ready' ? (
@@ -42,6 +43,8 @@ function Test({
       setGeneratedTestText={setGeneratedTestText}
       duration={duration}
       setDuration={setDuration}
+      gameMode={gameMode}
+      setGameMode={setGameMode}
     />
   ) : (
     <TestTerminal
@@ -54,6 +57,7 @@ function Test({
       setState={setState}
       generatedTestText={generatedTestText}
       duration={duration}
+      gameMode={gameMode}
     />
   );
 }

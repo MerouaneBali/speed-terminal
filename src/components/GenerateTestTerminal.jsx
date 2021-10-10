@@ -59,6 +59,8 @@ function GenerateTestTerminal({
   setGeneratedTestText,
   duration,
   setDuration,
+  gameMode,
+  setGameMode,
 }) {
   const [durations, setDurations] = useState([
     '01:00',
@@ -97,7 +99,7 @@ function GenerateTestTerminal({
             prop: 'extracts',
             exintro: 1,
             explaintext: 1,
-            exchars: 1000,
+            exchars: 500,
             titles: getRandomTopic(),
           },
         })
@@ -120,7 +122,7 @@ function GenerateTestTerminal({
           prop: 'extracts',
           exintro: 1,
           explaintext: 1,
-          exchars: 1000,
+          exchars: 500,
           titles: topic,
         },
       })
@@ -313,6 +315,12 @@ function GenerateTestTerminal({
       label="Backspace"
       checked={backspace}
       setChecked={setBackspace}
+    />,
+    <MenuCheckbox
+      id="GameMode"
+      label="Game Mode"
+      checked={gameMode}
+      setChecked={setGameMode}
     />,
     <MenuButton
       id="Start test"
