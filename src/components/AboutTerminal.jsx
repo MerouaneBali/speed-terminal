@@ -35,6 +35,7 @@ function AboutTerminal({
       terminalsRef={terminalsRef}
       id="about-terminal"
       title="About Us"
+      resizable
       visible={aboutTerminal}
       unmountSelf={() => setAboutTerminal(false)}
       onMouseDown={() => activateTerminal(terminalsRef, refIndex)}

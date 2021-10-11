@@ -35,6 +35,7 @@ function RoadMapTerminal({
       terminalsRef={terminalsRef}
       id="road-map-terminal"
       title="Road Map"
+      resizable
       visible={roadMapTerminal}
       unmountSelf={() => setRoadMapTerminal(false)}
       onMouseDown={() => activateTerminal(terminalsRef, refIndex)}
