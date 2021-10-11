@@ -35,58 +35,31 @@ function AboutTerminal({
       terminalsRef={terminalsRef}
       id="about-terminal"
       title="About Us"
-      expandable
-      resizable
-      initSize="expanded"
       visible={aboutTerminal}
       unmountSelf={() => setAboutTerminal(false)}
       onMouseDown={() => activateTerminal(terminalsRef, refIndex)}
     >
       <section>
+        <h1>Speed Terminal v0.1 [BETA]</h1>
+        <p>
+          Developed with{' '}
+          <span style={{ fontFamily: 'sans-serif' }}>&#10084;&#65039;</span>
+          {/* by Merouane Bali */}
+        </p>
+        <p>
+          <b>By:</b> Merouane Bali
+        </p>
+        <p>
+          <b>Contact:</b> merouane.bali.inbox@gmail.com
+        </p>
+      </section>
+      <section>
         <h1>What is this app for:</h1>
         <p>
-          We believe that every business with a website needs tools to
-          communicate with its customers. LiveChat fills in for phone calls,
-          which are time-consuming and for e-mails, which tend to be slow.
-        </p>
-        <p>
-          That’s why we created LiveChat – an application that enables the
-          visitors on your site to chat live with your customer support. It’s a
-          solution dedicated for e-commerce and customer care.
-        </p>
-        <p>
-          Unique greetings and powerful reporting are just some of our features
-          that will aid you in your day-to-day business activities.
-        </p>
-        <p>
-          Over <b>33,000</b> happy customers rely on LiveChat in their everyday
-          duties. Some of them shared their thoughts about our product.
-        </p>
-        <p>
-          We encourage you to try our live chat software yourself! Just give us
-          a shot and take LiveChat for a <b>free test drive</b>.
-        </p>
-      </section>
-
-      <section>
-        <h1>Who are we:</h1>
-        <p>
-          We’re a team of 100+ passionate people developing and supporting the
-          most efficient and easy-to-use live chat software for business. What
-          we enjoy the most is seeing our customer’s business grow with the help
-          of our product.
-        </p>
-      </section>
-
-      <section>
-        <h1>What’s our mission:</h1>
-        <p>
-          We’ve built LiveChat on the idea that helping others is as much
-          important as creating a great product. While turning simple live chat
-          app into a robust business platform, we’ve gained tons of knowledge
-          about growth and customer relations. Our mission is to share our
-          knowledge, bring personal touch to online communication and never stop
-          loving what we do.
+          Speed Terminal is a web app project aimed to teach computer users to
+          type fast on their keyboards. By offering an easy-to-use interface,
+          and an fun interactive experiance where users won&apos;t feel
+          intemidated by the end goal of learning to tyoe fast.
         </p>
       </section>
     </Terminal>
