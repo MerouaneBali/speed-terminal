@@ -2,6 +2,7 @@ import React, { useState, useRef, cloneElement } from 'react';
 import AboutTerminal from './components/AboutTerminal';
 
 import Header from './components/Header';
+import RoadMapTerminal from './components/RoadMapTerminal';
 import Test from './components/Test';
 
 import './css/style.css';
@@ -11,6 +12,8 @@ function App() {
 
   const [aboutTerminal, setAboutTerminal] = useState(false);
 
+  const [roadMapTerminal, setRoadMapTerminal] = useState(false);
+
   const terminalsRef = useRef([]);
 
   const Terminals = [
@@ -19,15 +22,20 @@ function App() {
       aboutTerminal={aboutTerminal}
       setAboutTerminal={setAboutTerminal}
     />,
+    <RoadMapTerminal
+      roadMapTerminal={roadMapTerminal}
+      setRoadMapTerminal={setRoadMapTerminal}
+    />,
   ];
 
   return (
     <div className="App">
       <Header
-        home={() => {}}
-        contact={() => {}}
-        about={() => setAboutTerminal(true)}
-        start={() => setTestTerminal(true)}
+        routes={[
+          { title: 'Road-Map', action: () => setRoadMapTerminal(true) },
+          { title: 'About', action: () => setAboutTerminal(true) },
+          { title: 'Start', action: () => setTestTerminal(true) },
+        ]}
       />
       {Terminals.map(
         (terminal, index) =>

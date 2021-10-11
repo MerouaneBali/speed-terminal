@@ -9,36 +9,27 @@ import '../css/components/Header.css';
  *
  * @description Page navigation header
  *
- * @prop {boolean} contact Set contact state to `true`
- * @prop {boolean} about Set about state to `true`
- * @prop {boolean} start Set start state to `true`
+ * @prop {Array.<{name: String, action: Object}>} routes Routes to be presented in the header
  */
-function Header({ home, start, about, contact }) {
+function Header({ routes }) {
   return (
     <header>
       <div>
         <img src={logo} alt="LOGO" />
-        <button type="button" onClick={home}>
+        <button type="button" onClick={() => {}}>
           Speed Terminal
         </button>
       </div>
       <nav>
         <ul>
-          <li>
-            <button type="button" onClick={contact}>
-              Contact
-            </button>
-          </li>
-          <li>
-            <button type="button" onClick={about}>
-              About
-            </button>
-          </li>
-          <li>
-            <button type="button" onClick={start}>
-              Start
-            </button>
-          </li>
+          {routes &&
+            routes.map((route) => (
+              <li>
+                <button type="button" onClick={route.action}>
+                  {route.title}
+                </button>
+              </li>
+            ))}
         </ul>
       </nav>
     </header>
