@@ -37,6 +37,16 @@ function App() {
           { title: 'Start', action: () => setTestTerminal(true) },
         ]}
       />
+      {!testTerminal && !aboutTerminal && !roadMapTerminal && (
+        <section id="app__welcome">
+          <h1>Welcome!</h1>
+          <div className="app__welcome__typewriter">
+            <p>
+              <b>Tip of the day:</b> Use arrow keys to navigate menu items
+            </p>
+          </div>
+        </section>
+      )}
       {Terminals.map(
         (terminal, index) =>
           cloneElement(terminal, {

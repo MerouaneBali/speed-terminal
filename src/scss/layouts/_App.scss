@@ -1,6 +1,47 @@
+@use "../base/_colors" as *;
+
 .App {
   height: 100vh;
   width: 100vw;
   padding: 2.5em;
   overflow: hidden;
+
+  #app__welcome {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    b {
+      color: $success;
+    }
+
+    .app__welcome__typewriter {
+      overflow: hidden; /* Ensures the content is not revealed until the animation */
+      border-right: 1ch solid $light; /* The typwriter cursor */
+      white-space: nowrap; /* Keeps the content on a single line */
+      margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+      margin-top: 2.5em;
+      animation: typing 5.3s steps(53, end), blink-caret 1s step-end infinite;
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 53ch;
+        }
+      }
+
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: $light;
+        }
+      }
+    }
+  }
 }
