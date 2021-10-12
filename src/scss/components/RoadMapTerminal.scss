@@ -11,7 +11,12 @@
         color: $success;
       }
 
-      p {
+      ul {
+        padding: 0 2ch;
+      }
+
+      p,
+      li {
         margin-top: 2.5em;
         margin-top: 1.125em;
         max-width: 60ch;

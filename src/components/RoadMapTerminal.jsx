@@ -69,6 +69,18 @@ function RoadMapTerminal({
         </p>
       </section>
       <section>
+        <h1>Known Issues:</h1>
+        <ul>
+          <li>
+            Key press events not matching keyboard buttons in different browsers
+          </li>
+          <li>
+            Terminals open in the same location, thus ending up on top of each
+            other
+          </li>
+        </ul>
+      </section>
+      <section>
         <h1>[META DATA]:</h1>
         <p>
           Posted: <b>11/10/2021</b>
