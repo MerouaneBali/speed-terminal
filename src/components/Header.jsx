@@ -24,7 +24,7 @@ function Header({ routes }) {
         <ul>
           {routes &&
             routes.map((route) => (
-              <li>
+              <li key={route.title}>
                 <button type="button" onClick={route.action}>
                   {route.title}
                 </button>
