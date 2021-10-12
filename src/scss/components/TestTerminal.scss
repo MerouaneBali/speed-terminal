@@ -58,11 +58,11 @@
     }
 
     #test-terminal__text_container {
-      height: calc(100% - 2.5rem - 1.125rem - 2.5em);
+      height: calc(100% - 2.5rem - 1.125rem - 2.5em - 1.25em);
       overflow-y: scroll;
 
       &[game-mode='true'] {
-        height: calc(100% - 2.5rem - 1.125rem - 2.5em - 50% - 1.25em);
+        height: calc(100% - 2.5rem - 1.125rem - 2.5em - 1.25em - 50% - 1.25em);
       }
     }
 
