@@ -92,7 +92,7 @@ function GenerateTestTerminal({
   const fetchTextContent = async () => {
     if (topic === 'random') {
       return axios
-        .get('https://en.wikipedia.org/w/api.php', {
+        .get('https://en.wikipedia.org/w/api.php?origin=*', {
           params: {
             action: 'query',
             format: 'json',
@@ -115,7 +115,7 @@ function GenerateTestTerminal({
     }
 
     return axios
-      .get('https://en.wikipedia.org/w/api.php', {
+      .get('https://en.wikipedia.org/w/api.php?origin=*', {
         params: {
           action: 'query',
           format: 'json',
