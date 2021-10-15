@@ -104,7 +104,7 @@ function SearchTopicTerminal({
 
     search &&
       axios
-        .get('/w/api.php', {
+        .get('https://en.wikipedia.org/w/api.php', {
           params: {
             action: 'query',
             format: 'json',
