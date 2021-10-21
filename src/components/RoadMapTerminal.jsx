@@ -67,6 +67,9 @@ function RoadMapTerminal({
         <p>
           - <b>Community:</b> Resources from other users
         </p>
+        <p>
+          - <b>Mobile App:</b> To support mobile users
+        </p>
       </section>
       <section>
         <h1>Known Issues:</h1>
