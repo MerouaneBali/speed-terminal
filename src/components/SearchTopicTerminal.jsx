@@ -152,6 +152,7 @@ function SearchTopicTerminal({
       unmountSelf={() => setSearchTopic(false)}
       onMouseDown={() => innerRef.current.setAttribute('active', true)}
     >
+      <p id="search-topic-terminal__info">ⓘ Powered by Wikipedia API</p>
       <Input
         innerRef={searchRef}
         label="? Search"
