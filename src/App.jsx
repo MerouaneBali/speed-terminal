@@ -40,11 +40,20 @@ function App() {
       {!testTerminal && !aboutTerminal && !roadMapTerminal && (
         <section id="app__welcome">
           <h1>Welcome!</h1>
-          <div className="app__welcome__typewriter">
-            <p>
-              <b>Tip of the day:</b> Use arrow keys to navigate menu items
-            </p>
-          </div>
+          <p>
+            <b>Here are some tips for you:</b>
+          </p>
+          <ul>
+            <li>
+              Most windows will allow you to <b>move</b> and <b>resize</b> them
+            </li>
+            <li>
+              Multiple windows can be <b>kept opened</b> at the same time
+            </li>
+            <li>
+              Menus support the use of <b>Arrow Keys</b> and <b>Enter</b>
+            </li>
+          </ul>
         </section>
       )}
       {Terminals.map(
