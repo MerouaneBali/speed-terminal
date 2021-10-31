@@ -946,7 +946,8 @@ function TestTerminal({
                 parseInt(
                   window.getComputedStyle(canvasContainer).width.slice(0, -2),
                   10
-                )
+                ) -
+                  bot.width * 0.75
             ) {
               bot.x += app.renderer.width / wordsTotal;
 
