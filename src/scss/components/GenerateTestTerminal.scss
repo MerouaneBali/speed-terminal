@@ -1,7 +1,19 @@
 @use '../base/colors' as *;
 
-.topic {
-  span {
-    color: $success;
+#generate-test-terminal {
+  .topic {
+    span {
+      color: $success;
+    }
+  }
+
+  .menu-button:not(:last-child) {
+    button {
+      cursor: inherit;
+
+      span {
+        cursor: pointer;
+      }
+    }
   }
 }

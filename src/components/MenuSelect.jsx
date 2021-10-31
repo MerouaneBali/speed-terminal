@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useRef } from 'react';
 
 import '../css/components/MenuSelect.css';
@@ -40,6 +42,20 @@ function MenuSelect({
   const inputRef = useRef();
 
   /**
+   * @description Toggles between options from `options` state
+   * and setting `selectedOption` to the next option on the list
+   * @returns {string} Next option on the options array
+   */
+  const selectionToggleHandler = () =>
+    setSelectedOption(() => {
+      const currentOptionIndex = options.indexOf(selectedOption);
+      const nextOptionIndex =
+        currentOptionIndex + 1 >= options.length ? 0 : currentOptionIndex + 1;
+
+      return options[nextOptionIndex];
+    });
+
+  /**
    * @method useEffect
    * @memberof MenuSelect
    * @description Toggles between options from `options` state
@@ -58,15 +74,7 @@ function MenuSelect({
   useEffect(() => {
     const input = menuItemsRef.current[refIndex];
 
-    input &&
-      activeMenuItem === refIndex &&
-      setSelectedOption(() => {
-        const currentOptionIndex = options.indexOf(selectedOption);
-        const nextOptionIndex =
-          currentOptionIndex + 1 >= options.length ? 0 : currentOptionIndex + 1;
-
-        return options[nextOptionIndex];
-      });
+    input && activeMenuItem === refIndex && selectionToggleHandler();
   }, [activeMenuItem]);
 
   return (
@@ -76,7 +84,11 @@ function MenuSelect({
       className={`menu-select${className ? ` ${className}` : ''}`}
     >
       <p>{label}:</p>
-      <p ref={inputRef} className="menu-select__selected">
+      <p
+        ref={inputRef}
+        className="menu-select__selected"
+        onClick={selectionToggleHandler}
+      >
         {selectedOption}{' '}
         <span>
           [{options.indexOf(selectedOption) + 1}/{options.length}]

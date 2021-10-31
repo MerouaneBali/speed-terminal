@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable max-len */
 import React, { useEffect, useRef } from 'react';
 
@@ -62,6 +64,7 @@ function MenuButton({
       ref={innerRef}
       id={id}
       className={`menu-button${className ? ` ${className}` : ''}`}
+      onClick={onClickHandler}
     >
       <button ref={inputRef} type="button" style={style}>
         {label}

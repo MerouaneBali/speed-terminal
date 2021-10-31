@@ -16,4 +16,8 @@
   input[value='false'] + .menu-checkbox__checked {
     color: $error;
   }
+
+  p:last-child {
+    cursor: pointer;
+  }
 }

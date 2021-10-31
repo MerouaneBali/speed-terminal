@@ -5,6 +5,8 @@
 
   .menu-select__selected {
     color: $success;
+    cursor: pointer;
+
     span {
       color: $light;
     }

@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable max-len */
 import React, { useEffect, useRef } from 'react';
 
@@ -75,7 +77,12 @@ function MenuCheckbox({
         // eslint-disable-next-line no-extra-boolean-cast
         onChange={() => setChecked((prevState) => !prevState)}
       />
-      <p className="menu-checkbox__checked">{checked ? 'true' : 'false'}</p>
+      <p
+        className="menu-checkbox__checked"
+        onClick={() => setChecked((prevState) => !prevState)}
+      >
+        {checked ? 'true' : 'false'}
+      </p>
     </li>
   );
 }
