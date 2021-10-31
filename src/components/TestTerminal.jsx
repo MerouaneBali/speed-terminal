@@ -11,6 +11,7 @@ import dinoGreen from '../sprites/dinosaur_racing/green.png';
 import dinoYellow from '../sprites/dinosaur_racing/yellow.png';
 import dinoRed from '../sprites/dinosaur_racing/red.png';
 import dinoBlue from '../sprites/dinosaur_racing/blue.png';
+import line from '../sprites/dinosaur_racing/line.png';
 
 import activateTerminal from '../utils/activateTerminal';
 
@@ -786,9 +787,9 @@ function TestTerminal({
 
       // eslint-disable-next-line no-unused-vars
       const setup = (loader, resources) => {
-        const [laneGreen, laneRed, laneYellow, laneBlue] = [
-          0xb6ff00, 0xff0000, 0xffae00, 0x0094ff,
-        ].map(
+        const laneColors = [0xb6ff00, 0xff0000, 0xffae00, 0x0094ff];
+
+        const [laneGreen, laneRed, laneYellow, laneBlue] = laneColors.map(
           (color, index) =>
             new PIXI.Graphics()
               .beginFill(color)
@@ -800,6 +801,32 @@ function TestTerminal({
               )
           // eslint-disable-next-line function-paren-newline
         );
+
+        const startlineBanner = laneColors.map((lane, index) => {
+          // eslint-disable-next-line new-cap
+          const laneBanner = new PIXI.Sprite.from(line);
+
+          laneBanner.height = app.renderer.height / 4;
+          laneBanner.width = app.renderer.height / 4;
+          laneBanner.x = 0; // app.renderer.height / 4;
+          laneBanner.y = 0 || (app.renderer.height / 4) * index;
+          laneBanner.anchor.set(-0.5, 0);
+
+          return laneBanner;
+        });
+
+        const finishlineBanner = laneColors.map((lane, index) => {
+          // eslint-disable-next-line new-cap
+          const laneBanner = new PIXI.Sprite.from(line);
+
+          laneBanner.height = app.renderer.height / 4;
+          laneBanner.width = app.renderer.height / 4;
+          laneBanner.x = app.renderer.width - app.renderer.height / 4;
+          laneBanner.y = 0 || (app.renderer.height / 4) * index;
+          laneBanner.anchor.set(0.5, 0);
+
+          return laneBanner;
+        });
 
         const [green, red, yellow, blue] = Object.keys(resources).map(
           (spriteKey, index) => {
@@ -832,15 +859,16 @@ function TestTerminal({
 
         app.stage.addChild(
           laneGreen,
-          green,
-
           laneRed,
-          red,
-
           laneYellow,
-          yellow,
-
           laneBlue,
+
+          ...startlineBanner,
+          ...finishlineBanner,
+
+          green,
+          red,
+          yellow,
           blue
         );
 
