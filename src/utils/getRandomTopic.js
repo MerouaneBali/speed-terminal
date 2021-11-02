@@ -5,7 +5,7 @@
  * @returns {string} Random topic
  */
 export default () => {
-  const topics = ['Randomization', 'Abdelkader ibn Muhieddine'];
+  const topics = ['Randomization', 'Iron Man'];
 
   const index = Math.floor(Math.random() * topics.length);
 
