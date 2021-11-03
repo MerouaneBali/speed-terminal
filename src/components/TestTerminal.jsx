@@ -445,8 +445,8 @@ function TestTerminal({
   };
 
   /**
-   * @description Handle printable keydown events, the backspace and enter are an exception
-   * - Calculate WPM and accuracy on each typed character and word
+   * @description Handle backspace keydown events
+   * - Re-calculate WPM and accuracy
    * - Change the style of the typed characters and words
    * - Handle "delete" actions
    *
@@ -461,7 +461,125 @@ function TestTerminal({
       return null;
     }
 
-    // TODO:Figure out why `key` doesn't match keyboard input
+    // TODO: use regexu to support old browsers that don't understand unicode ReGex
+    if (key.match(/^\bBackspace\b$/)) {
+      const prevCaretPosition = parseInt(
+        textRef.current.getAttribute('data-caret-position'),
+        10
+      );
+
+      const caretPosition = prevCaretPosition + 1;
+
+      const char = charsRef.current[caretPosition];
+      const prevChar = charsRef.current[prevCaretPosition];
+
+      if (prevChar) {
+        const prevWord =
+          wordsRef.current[
+            parseInt(char.getAttribute('data-parent-word-index'), 10) - 1
+          ];
+
+        const charLocalIndex = parseInt(
+          char.getAttribute('data-char-local-index'),
+          10
+        );
+
+        if (!charLocalIndex && prevWord.classList.contains('word--correct')) {
+          prevWord.classList.remove('word--correct');
+
+          const correctWords = parseInt(
+            textRef.current.getAttribute('data-correct-words'),
+            10
+          );
+
+          textRef.current.setAttribute('data-correct-words', correctWords - 1);
+        } else if (
+          !charLocalIndex &&
+          prevWord.classList.contains('word--incorrect')
+        ) {
+          prevWord.classList.remove('word--incorrect');
+
+          const incorrectWords = parseInt(
+            textRef.current.getAttribute('data-incorrect-words'),
+            10
+          );
+
+          textRef.current.setAttribute(
+            'data-incorrect-words',
+            incorrectWords - 1
+          );
+        }
+
+        if (prevChar.classList.contains('char--correct')) {
+          const correctChars = parseInt(
+            textRef.current.getAttribute('data-correct-chars'),
+            10
+          );
+
+          textRef.current.setAttribute('data-correct-chars', correctChars - 1);
+        } else if (prevChar.classList.contains('char--incorrect')) {
+          const incorrectChars = parseInt(
+            textRef.current.getAttribute('data-incorrect-chars'),
+            10
+          );
+
+          textRef.current.setAttribute(
+            'data-incorrect-chars',
+            incorrectChars - 1
+          );
+        }
+
+        char.classList.remove('char--current');
+
+        prevChar.classList.remove(
+          'char--typed',
+          'char--correct',
+          'char--incorrect'
+        );
+
+        prevChar.classList.add('char--current');
+
+        textRef.current.setAttribute(
+          'data-caret-position',
+          prevCaretPosition - 1
+        );
+
+        const typedChars = parseInt(
+          textRef.current.getAttribute('data-typed-chars'),
+          10
+        );
+
+        textRef.current.setAttribute('data-typed-chars', typedChars - 1);
+
+        if (!charLocalIndex && prevWord) {
+          const typedWords = parseInt(
+            textRef.current.getAttribute('data-typed-words'),
+            10
+          );
+
+          textRef.current.setAttribute('data-typed-words', typedWords - 1);
+        }
+      }
+    }
+    return null;
+  };
+
+  /**
+   * @description Handle printable and enter keypress events
+   * - Calculate WPM and accuracy on each typed character and word
+   * - Change the style of the typed characters and words
+   *
+   * @param {object} event Event object
+   * @param {string} event.key Key name representing the the key pressed down
+   */
+  // eslint-disable-next-line no-unused-vars
+  const keypressHandler = ({ key }) => {
+    const terminal = terminalsRef.current[refIndex];
+
+    /** If terminal active attribute is not set to `true` return and exit method */
+    if (terminal && terminal.getAttribute('active') !== 'true') {
+      return null;
+    }
 
     // TODO: use regexu to support old browsers that don't understand unicode ReGex
     if (key.match(/^[^\p{Cc}\p{Cn}\p{Cs}\p{Cf}]$|^\bEnter\b$/gu)) {
@@ -577,104 +695,6 @@ function TestTerminal({
           }
         }
       }
-    } else if (key.match(/^\bBackspace\b$/)) {
-      const prevCaretPosition = parseInt(
-        textRef.current.getAttribute('data-caret-position'),
-        10
-      );
-
-      const caretPosition = prevCaretPosition + 1;
-
-      const char = charsRef.current[caretPosition];
-      const prevChar = charsRef.current[prevCaretPosition];
-
-      if (prevChar) {
-        const prevWord =
-          wordsRef.current[
-            parseInt(char.getAttribute('data-parent-word-index'), 10) - 1
-          ];
-
-        const charLocalIndex = parseInt(
-          char.getAttribute('data-char-local-index'),
-          10
-        );
-
-        if (!charLocalIndex && prevWord.classList.contains('word--correct')) {
-          prevWord.classList.remove('word--correct');
-
-          const correctWords = parseInt(
-            textRef.current.getAttribute('data-correct-words'),
-            10
-          );
-
-          textRef.current.setAttribute('data-correct-words', correctWords - 1);
-        } else if (
-          !charLocalIndex &&
-          prevWord.classList.contains('word--incorrect')
-        ) {
-          prevWord.classList.remove('word--incorrect');
-
-          const incorrectWords = parseInt(
-            textRef.current.getAttribute('data-incorrect-words'),
-            10
-          );
-
-          textRef.current.setAttribute(
-            'data-incorrect-words',
-            incorrectWords - 1
-          );
-        }
-
-        if (prevChar.classList.contains('char--correct')) {
-          const correctChars = parseInt(
-            textRef.current.getAttribute('data-correct-chars'),
-            10
-          );
-
-          textRef.current.setAttribute('data-correct-chars', correctChars - 1);
-        } else if (prevChar.classList.contains('char--incorrect')) {
-          const incorrectChars = parseInt(
-            textRef.current.getAttribute('data-incorrect-chars'),
-            10
-          );
-
-          textRef.current.setAttribute(
-            'data-incorrect-chars',
-            incorrectChars - 1
-          );
-        }
-
-        char.classList.remove('char--current');
-
-        prevChar.classList.remove(
-          'char--typed',
-          'char--correct',
-          'char--incorrect'
-        );
-
-        prevChar.classList.add('char--current');
-
-        textRef.current.setAttribute(
-          'data-caret-position',
-          prevCaretPosition - 1
-        );
-
-        const typedChars = parseInt(
-          textRef.current.getAttribute('data-typed-chars'),
-          10
-        );
-
-        textRef.current.setAttribute('data-typed-chars', typedChars - 1);
-
-        if (!charLocalIndex && prevWord) {
-          const typedWords = parseInt(
-            textRef.current.getAttribute('data-typed-words'),
-            10
-          );
-
-          textRef.current.setAttribute('data-typed-words', typedWords - 1);
-        }
-      }
     }
     return null;
   };
@@ -738,6 +758,7 @@ function TestTerminal({
    */
   useEffect(() => {
     document.addEventListener('keydown', keydownHandler);
+    document.addEventListener('keypress', keypressHandler);
 
     /**
      * Once test is finished or stoped:
@@ -747,6 +768,7 @@ function TestTerminal({
      */
     if (state === 'finish' || state === 'stop') {
       document.removeEventListener('keydown', keydownHandler);
+      document.removeEventListener('keypress', keypressHandler);
       calcWPM();
       calcAccuracy();
       setEndDialog(true);
@@ -754,6 +776,7 @@ function TestTerminal({
 
     return () => {
       document.removeEventListener('keydown', keydownHandler);
+      document.removeEventListener('keypress', keypressHandler);
     };
   }, [state, clock]);
 
