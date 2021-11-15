@@ -11,6 +11,7 @@ import Close from '../svg/close.svg';
 import activateTerminal from '../utils/activateTerminal';
 
 import '../css/components/Terminal.css';
+import getTransformValue from '../utils/getTransformValue';
 
 /**
  * @component
@@ -157,6 +158,9 @@ function Terminal({
             'prev-width',
             window.getComputedStyle(terminal).width
           );
+
+          terminal.setAttribute('data-x', getTransformValue(terminal, 'm41'));
+          terminal.setAttribute('data-y', getTransformValue(terminal, 'm42'));
           terminal.setAttribute(
             'prev-transform',
             window.getComputedStyle(terminal).transform
