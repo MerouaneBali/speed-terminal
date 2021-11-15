@@ -1,9 +1,11 @@
-import React, { useState, useRef, cloneElement } from 'react';
+import React, { useState, useRef, cloneElement, useLayoutEffect } from 'react';
 import AboutTerminal from './components/AboutTerminal';
 
 import Header from './components/Header';
 import RoadMapTerminal from './components/RoadMapTerminal';
 import Test from './components/Test';
+
+import consoleLogDevInfo from './utils/cldi';
 
 import './css/style.css';
 
@@ -27,6 +29,10 @@ function App() {
       setRoadMapTerminal={setRoadMapTerminal}
     />,
   ];
+
+  useLayoutEffect(() => {
+    consoleLogDevInfo();
+  }, []);
 
   return (
     <div className="App">
