@@ -46,6 +46,7 @@ function App() {
       {!testTerminal && !aboutTerminal && !roadMapTerminal && (
         <section id="app__welcome">
           <h1>Welcome!</h1>
+          <p>This is a typing speed test</p>
           <p>
             <b>Here are some tips for you:</b>
           </p>
