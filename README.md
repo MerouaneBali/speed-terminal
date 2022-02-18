@@ -9,14 +9,14 @@ Typing speed test generator, powered by Wikipedia API. [Live Demo](https://speed
 
 ![HOME](https://drive.google.com/uc?export=view&id=1wQVqx0xm_AHaC3qamr2jB7A8pBK2oddp)
 
-The app **doesn't have pages**, but instead every section is a **standalone window**, so navigating through the app is similar to navigating a computer: by opening, moving, minimizing or closing windows
+The app **doesn't have pages**, but instead every section is a **standalone window**, so navigating through the app is similar to navigating a computer: by opening, moving, minimizing or closing windows.
 ![PAGES](https://drive.google.com/uc?export=view&id=1ifD0CaHd97eXzzqVu8pY8WoEJNuh8giY)
 
 To **generate** a typing speed test click on **Start** the main menu, from there you can configure your test or just leave the defaults and click **start test** button.
 🎲 **NOTE:** You can select specific topics by clicking **Topic** in **Generate Test** menu, which will open a popup window where you can fetch **Wikipedia** summery section of the topic you're interested in.
 ![PAGES](https://drive.google.com/uc?export=view&id=1vxt7JAGo3MuvB31ImsJ0ht1o6of41GV8)
 
-The app includes a **game mode** rendered using WebGL with the help of Pixi.js.
+The app includes a **game mode** rendered using **WebGL** with the help of **Pixi.js**.
 ![GAME-MODE](https://drive.google.com/uc?export=view&id=1N5Lrp3VBfIF5NmI1JlvI9lcLlYkPNFUs)
 
 The project is still in BETA stage, but it will be improved over time with plans to add many cool features, such as: Accounts and Settings, Themes (Window XP, Macintosh System 1, type writer...ect), Sound Effects, Multiplayer Games...more.
