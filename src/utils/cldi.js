@@ -79,7 +79,7 @@ export default () => {
   );
 
   console.log(
-    '%cMy portfolio:%cwww.merouane-bali-official.it',
+    '%cMy portfolio:%chttps://merouane-bali.netlify.app',
     genConsoleStyles({
       color: 'white',
       background: 'black',
