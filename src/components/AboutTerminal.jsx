@@ -53,6 +53,21 @@ function AboutTerminal({
         <p>
           <b>Contact:</b> merouane.bali.inbox@gmail.com
         </p>
+
+<p>
+          <b>Website:</b>
+        </p>
+        <p>
+          <b>Contact:</b> merouane-bali.netlify.app
+        </p>
+
+<p>
+          <b>GitHub:</b>
+        </p>
+        <p>
+          <b>Contact:</b> merouane.bali.inbox@gmail.com
+        </p>
+
       </section>
       <section>
         <h1>What is this app for:</h1>
