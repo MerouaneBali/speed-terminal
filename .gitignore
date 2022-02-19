@@ -116,7 +116,7 @@ dist
 /build
 
 # documentation
-/docs
+/public/docs
 
 # compiled styling
 /src/css
