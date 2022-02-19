@@ -22,6 +22,18 @@ The app includes a **game mode** rendered using **WebGL** with the help of **Pix
 The project is still in BETA stage, but it will be improved over time with plans to add many cool features, such as: Accounts and Settings, Themes (Window XP, Macintosh System 1, type writer...ect), Sound Effects, Multiplayer Games...more.
 ![ROAD-MAP](https://drive.google.com/uc?export=view&id=1TK-1ahOQALkp9v9ofIv51itnK_4vGY_r)
 
+## Design System
+
+The design system for this project is not well done so I won't make it public for now
+
+![FIGMA](https://drive.google.com/uc?export=view&id=1VhY8zY2BzO2s1RbDS9QiyHqmll-pWjb2)
+
+## Documentation
+
+To view the projects **component based documentation** build using **JSDoc** click [DOCUMENTATION](https://speed-terminal.netlify.app/docs/).
+
+![DOCUMENTATION](https://drive.google.com/uc?export=view&id=1vGTEFt-205NmjnLPSlzEWykb9DuSEXAQ)
+
 ## Available Scripts
 
 In the project directory, you can run:
