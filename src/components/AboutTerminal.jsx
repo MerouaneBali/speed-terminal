@@ -51,23 +51,24 @@ function AboutTerminal({
           <b>By:</b> Merouane Bali
         </p>
         <p>
-          <b>Contact:</b> merouane.bali.inbox@gmail.com
-        </p>
-
-<p>
-          <b>Website:</b>
+          <b>Contact:</b> <a
+          href="mailto:merouane.bali.inbox@gmail.com"
+        >  merouane.bali.inbox@gmail.com</a>
         </p>
         <p>
-          <b>Contact:</b> merouane-bali.netlify.app
-        </p>
-
-<p>
-          <b>GitHub:</b>
+          <b>Website:</b> <a
+          href="https://merouane-bali.netlify.app"
+          target="_blank"
+          rel="noreferrer"
+        >  merouane-bali.netlify.app</a>
         </p>
         <p>
-          <b>Contact:</b> merouane.bali.inbox@gmail.com
+          <b>GitHub:</b> <a
+          href="https://github.com/MerouaneBali/speed-terminal"
+          target="_blank"
+          rel="noreferrer"
+        > Main Repository</a>
         </p>
-
       </section>
       <section>
         <h1>What is this app for:</h1>
