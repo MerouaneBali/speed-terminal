@@ -53,7 +53,7 @@ Watch for SCSS file changes and update app styles on the go
 
 Build app's CSS styles from SCSS files
 
-### `gulp buildDocumentation`
+### `gulp generateDocumentation`
 
 Build app's documentation using JSDoc
 
