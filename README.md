@@ -1,7 +1,7 @@
 
 # Speed Terminal (Beta)
 
-Typing speed test generator, powered by Wikipedia API. [Live Demo](https://speed-terminal.netlify.app/).
+Typing speed test generator, powered by Wikipedia API. [Live Demo](https://speed-terminal.netlify.app/) | [Component Docs](https://speed-terminal.netlify.app/docs).
 
 ## Details
 
