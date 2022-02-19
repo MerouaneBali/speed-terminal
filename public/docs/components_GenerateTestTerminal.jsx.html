@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/GenerateTestTerminal.jsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Speed Terminal Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-activeMenuItems.html">activeMenuItems</a></li><li><a href="module-activeTerminal.html">activeTerminal</a></li><li><a href="module-cldi.html">cldi</a></li><li><a href="module-convertEmToPixels.html">convertEmToPixels</a></li><li><a href="module-getDefaultFontSize.html">getDefaultFontSize</a></li><li><a href="module-getRandomTopic.html">getRandomTopic</a></li><li><a href="module-getTransformValue.html">getTransformValue</a></li><li><a href="module-mergeRefs.html">mergeRefs</a></li></ul><h3>Components</h3><ul><li><a href="AboutTerminal.html">AboutTerminal</a></li><li><a href="GenerateTestTerminal.html">GenerateTestTerminal</a></li><li><a href="Header.html">Header</a></li><li><a href="Input.html">Input</a></li><li><a href="Menu.html">Menu</a></li><li><a href="MenuButton.html">MenuButton</a></li><li><a href="MenuCheckbox.html">MenuCheckbox</a></li><li><a href="MenuInput.html">MenuInput</a></li><li><a href="MenuSelect.html">MenuSelect</a></li><li><a href="RoadMapTerminal.html">RoadMapTerminal</a></li><li><a href="SearchTopicTerminal.html">SearchTopicTerminal</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="Test.html">Test</a></li><li><a href="TestEndDialogTerminal.html">TestEndDialogTerminal</a></li><li><a href="TestTerminal.html">TestTerminal</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/GenerateTestTerminal.jsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+
+import activateTerminal from '../utils/activateTerminal';
+import getRandomTopic from '../utils/getRandomTopic';
+
+import Terminal from './Terminal';
+import Menu from './Menu';
+import MenuCheckbox from './MenuCheckbox';
+import MenuSelect from './MenuSelect';
+import MenuButton from './MenuButton';
+import SearchTopicTerminal from './SearchTopicTerminal';
+
+import '../css/components/GenerateTestTerminal.css';
+
+/**
+ * @component
+ *
+ * @description Terminal menu to generate a typing speed test,
+ * which is then used by {@link TestTerminal}
+ *
+ * - Select time
+ * - Select topic
+ * - Select casing
+ * - Toggle backspace support
+ *
+ * @prop {object} props React props
+ * @prop {object} props.innerRef External reference hook for the terminal
+ * @prop {number} props.refIndex Index of current terminal in terminalsRef
+ * @prop {object} props.terminalsRef Reference hook containing an array of terminals hooks
+ * @prop {boolean} props.testTerminal State of test terminal visiblity
+ * @prop {function} props.setTestTerminal Set testTerminal state function
+ * @prop {function} props.setState Set state function
+ * @prop {number} props.duration Duration state
+ * @prop {function} props.setDuration Set duration state function
+ * @prop {function} props.setGeneratedTestText Set generatedTestText state function
+ *
+ * @requires axios
+ * @requires useState
+ * @requires useRef
+ * @requires useEffect
+ * @requires activateTerminal
+ * @requires getRandomTopic
+ * @requires Terminal
+ * @requires Menu
+ * @requires MenuInput
+ * @requires MenuCheckbox
+ * @requires MenuSelect
+ * @requires MenuButton
+ * @requires SearchTopicTerminal
+ */
+function GenerateTestTerminal({
+  innerRef,
+  refIndex,
+  terminalsRef,
+  testTerminal,
+  setTestTerminal,
+  setState,
+  setGeneratedTestText,
+  duration,
+  setDuration,
+  gameMode,
+  setGameMode,
+}) {
+  const [durations, setDurations] = useState([
+    '01:00',
+    '03:00',
+    '05:00',
+    '10:00',
+    '15:00',
+  ]);
+
+  const [topic, setTopic] = useState('random');
+
+  const searchTopicRef = useRef();
+  const [searchTopic, setSearchTopic] = useState(false);
+
+  const [backspace, setBackspace] = useState(true);
+
+  const [casings, setCasings] = useState(['title-case', 'lower-case']);
+  const [selectedCasing, setSelectedCasing] = useState(casings[0]);
+
+  /**
+   * @description Fetch summery of a topic based on `topic` state from Wikipedia's API
+   *
+   * **NOTE**: If `topic` is random, then pick a random topic using {@link getRandomTopic}
+   *
+   * @requires getRandomTopic
+   *
+   * @returns {Promise&lt;string>} First page summery of said topic from Wikipedia
+   */
+  const fetchTextContent = async () => {
+    if (topic === 'random') {
+      return axios
+        .get('https://en.wikipedia.org/w/api.php?origin=*', {
+          params: {
+            action: 'query',
+            format: 'json',
+            prop: 'extracts',
+            exintro: 1,
+            explaintext: 1,
+            exchars: 500,
+            titles: getRandomTopic(),
+          },
+        })
+        .then(({ data }) => {
+          const { pages } = data.query;
+
+          const pagesIds = Object.keys(pages);
+
+          const firstPage = pages[pagesIds[0]].extract;
+
+          return firstPage;
+        });
+    }
+
+    return axios
+      .get('https://en.wikipedia.org/w/api.php?origin=*', {
+        params: {
+          action: 'query',
+          format: 'json',
+          prop: 'extracts',
+          exintro: 1,
+          explaintext: 1,
+          exchars: 500,
+          titles: topic,
+        },
+      })
+      .then(({ data }) => {
+        const { pages } = data.query;
+
+        const pagesIds = Object.keys(pages);
+
+        const firstPage = pages[pagesIds[0]].extract;
+
+        return firstPage;
+      });
+  };
+
+  /**
+   * @description Clean text (coming from Wikiedia API) from unwanted characters, and set to be
+   * based on the `backspace` and `casing` configurations
+   *
+   * @param {string} text Text to be cleaned
+   *
+   * @returns Cleaned version of text coming from Wikipedia API
+   */
+  const cleanTextContent = (text) => {
+    // eslint-disable-next-line no-param-reassign
+    text = text
+      /**
+       * Split text by space to get an array of all words
+       *
+       * NOTE: Words that containt '\n' at the end will also be attached to the next word
+       *
+       * @example
+       * const text = 'this is the line's end.\nNew line starts here'
+       * text.split(' ') // ["this", "is", "the", "line's", "end\nNew", "line", "starts", "here"]
+       */
+      .split(' ')
+      /** Map through the array of words */
+      .map((word) => {
+        /** if word includes `\n` */
+        if (word.includes('\n')) {
+          return (
+            word
+              /**
+               * Split word by `\n` to get an array of real words,
+               * since words that containt '\n' at the end will also be attached to the next word
+               *
+               * NOTE: Words with more multiple '\n' characters
+               * will have empty strings replacing '\n' once splited
+               *
+               * @exmaple
+               * const word = "end\nNew"
+               * word.split('\n') // ["end", "New"]
+               *
+               * @exmaple
+               * const word = "end\n\nNew\n"
+               * word.split('\n') // ["end", "", "New", ""]
+               */
+              .split('\n')
+              /** Removes any empty strings replacing '\n' characters from the array,
+               * leaving only real words
+               */
+              .filter((innerWord) => innerWord)
+              /** Map through inner words of word */
+              .map(
+                // eslint-disable-next-line no-confusing-arrow
+                (innerWord, index) =>
+                  /** If first inner word then return it
+                   * with '↵' at the end if `backspace` is `true`
+                   * or just as it is if `backspace` is `false`
+                   *
+                   * else if NOT the first inner word in the array just return it as it is
+                   * */
+                  !index ? `${innerWord}${backspace ? '↵' : ''}` : innerWord
+              )
+          );
+        }
+
+        /** if word does NOT include `\n` */
+        return word;
+      })
+      /**
+       *  Flatening array of words with all its sub-arrays of words that got splited because of '\n'
+       *
+       * @example
+       * const text = ["this", "is", "the", "line's", ["end", "New"], "line", "starts", "here"]
+       * text.flat() // ["this", "is", "the", "line's", "end", "New", "line", "starts", "here"]
+       */
+      .flat()
+      /** Joining all words with space into a string of text */
+      .join(' ');
+
+    /** Convert text to lower case if `selectedCasing` value is 'lower-case' */
+    // eslint-disable-next-line no-param-reassign
+    text = selectedCasing === 'lower-case' ? text.toLowerCase() : text;
+
+    return text;
+  };
+
+  /**
+   * @description Geneterate test text and set its duration
+   * - Fetch test text and pass it to `setTextContent`
+   * - Convert duration text to seconds
+   * - Set state to 'steady',
+   *   unmounting {@link GenerateTestTerminal } and mountring {@link TestTerminal} in {@link Test}
+   */
+  const generateTest = async () => {
+    const fetchedTextContent = await fetchTextContent();
+
+    const cleanedTextContent = await cleanTextContent(fetchedTextContent);
+
+    await setGeneratedTestText(cleanedTextContent);
+
+    await setDuration((prevState) => {
+      const durationString = prevState.split(':');
+
+      const minutes = parseInt(durationString[0], 10);
+      const seconds = parseInt(durationString[1], 10);
+
+      return minutes * 60 + seconds;
+    });
+
+    await setState('steady');
+  };
+
+  useEffect(() => {
+    testTerminal &amp;&amp; activateTerminal(terminalsRef, refIndex);
+  }, [testTerminal, terminalsRef, refIndex]);
+
+  /**
+   * @method useEffect
+   *
+   * @memberof GenerateTestTerminal
+   *
+   * @description Convert duration state to ISO date string if it was type of number,
+   * this is due to duration coming from {@link TestTerminal} in seconds
+   * when {@link TestEndDialogTerminal} fires [generateNewTest]{@link TestTerminal~generateNewTest}
+   */
+  useEffect(() => {
+    typeof duration === 'number' &amp;&amp;
+      setDuration(
+        (prevState) => new Date(prevState * 1000).toISOString().substr(14, 5)
+        // eslint-disable-next-line function-paren-newline
+      );
+  }, []);
+
+  /**
+   * @method useEffect
+   *
+   * @memberof GenerateTestTerminal
+   *
+   * @description Set {@link SearchTopicTerminal} active attribute to `true`
+   *
+   * Dependencies: [`searchTopic`]
+   */
+  useEffect(() => {
+    if (searchTopic) {
+      terminalsRef.current[refIndex].setAttribute('active', false);
+      searchTopicRef.current.setAttribute('active', true);
+    }
+  }, [searchTopic]);
+
+  const menuItems = [
+    &lt;MenuSelect
+      id="Time"
+      label="Time"
+      options={durations}
+      setOptions={setDurations}
+      selectedOption={duration}
+      setSelectedOption={setDuration}
+    />,
+    &lt;MenuButton
+      id="Topic"
+      label={
+        // eslint-disable-next-line react/jsx-wrap-multilines
+        &lt;p className="topic">
+          Topic: &lt;span>{topic}&lt;/span>
+        &lt;/p>
+      }
+      onClickHandler={() => setSearchTopic(true)}
+    />,
+    &lt;MenuSelect
+      id="Casing"
+      label="Casing"
+      options={casings}
+      setOptions={setCasings}
+      selectedOption={selectedCasing}
+      setSelectedOption={setSelectedCasing}
+    />,
+    &lt;MenuCheckbox
+      id="Backspace"
+      label="Backspace"
+      checked={backspace}
+      setChecked={setBackspace}
+    />,
+    &lt;MenuCheckbox
+      id="GameMode"
+      label="Game Mode"
+      checked={gameMode}
+      setChecked={setGameMode}
+    />,
+    &lt;MenuButton
+      id="Start test"
+      label="Start test"
+      // eslint-disable-next-line no-return-await
+      onClickHandler={async () => await generateTest()}
+    />,
+  ];
+
+  return (
+    &lt;>
+      &lt;Terminal
+        innerRef={innerRef}
+        refIndex={refIndex}
+        terminalsRef={terminalsRef}
+        id="generate-test-terminal"
+        title="Generate Test"
+        expandable={false}
+        visible={testTerminal}
+        disabled={searchTopic}
+        unmountSelf={() => setTestTerminal(false)}
+        // eslint-disable-next-line no-confusing-arrow
+        onMouseDown={
+          () => (searchTopic ? {} : activateTerminal(terminalsRef, refIndex))
+          // eslint-disable-next-line react/jsx-curly-newline
+        }
+      >
+        &lt;Menu
+          terminalsRef={terminalsRef}
+          refIndex={refIndex}
+          parentTerminalRef={terminalsRef.current[refIndex]}
+          menuItems={menuItems}
+          disabled={searchTopic}
+        />
+      &lt;/Terminal>
+
+      &lt;SearchTopicTerminal
+        innerRef={searchTopicRef}
+        refIndex={refIndex}
+        terminalsRef={terminalsRef}
+        searchTopic={searchTopic}
+        setSearchTopic={setSearchTopic}
+        topic={topic}
+        setTopic={setTopic}
+      />
+    &lt;/>
+  );
+}
+
+export default GenerateTestTerminal;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

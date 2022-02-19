@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> GenerateTestTerminal</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Speed Terminal Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-activeMenuItems.html">activeMenuItems</a></li><li><a href="module-activeTerminal.html">activeTerminal</a></li><li><a href="module-cldi.html">cldi</a></li><li><a href="module-convertEmToPixels.html">convertEmToPixels</a></li><li><a href="module-getDefaultFontSize.html">getDefaultFontSize</a></li><li><a href="module-getRandomTopic.html">getRandomTopic</a></li><li><a href="module-getTransformValue.html">getTransformValue</a></li><li><a href="module-mergeRefs.html">mergeRefs</a></li></ul><h3>Components</h3><ul><li><a href="AboutTerminal.html">AboutTerminal</a></li><li><a href="GenerateTestTerminal.html">GenerateTestTerminal</a></li><li><a href="Header.html">Header</a></li><li><a href="Input.html">Input</a></li><li><a href="Menu.html">Menu</a></li><li><a href="MenuButton.html">MenuButton</a></li><li><a href="MenuCheckbox.html">MenuCheckbox</a></li><li><a href="MenuInput.html">MenuInput</a></li><li><a href="MenuSelect.html">MenuSelect</a></li><li><a href="RoadMapTerminal.html">RoadMapTerminal</a></li><li><a href="SearchTopicTerminal.html">SearchTopicTerminal</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="Test.html">Test</a></li><li><a href="TestEndDialogTerminal.html">TestEndDialogTerminal</a></li><li><a href="TestTerminal.html">TestTerminal</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Components</p>
+                    <h1>GenerateTestTerminal</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            &ltGenerateTestTerminal  /&gt
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <div class="members">
+                    <div class="member">
+                        <div class=name>
+                            <span class="tag">Constructor</span>
+                        </div>
+                        
+
+
+    
+    <h4 class="name" id="GenerateTestTerminal">
+        <a class="href-link" href="#GenerateTestTerminal">#</a>
+        
+        <span class="code-name">
+            
+                &ltGenerateTestTerminal  /&gt
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Terminal menu to generate a typing speed test,
+which is then used by <a href="TestTerminal.html">TestTerminal</a></p>
+<ul>
+<li>Select time</li>
+<li>Select topic</li>
+<li>Select casing</li>
+<li>Toggle backspace support</li>
+</ul>
+    </div>
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+<div class="table-container">
+    <table class="props table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+            
+<tr class="deep-level-0">
+    
+        <td class="name"><code>props</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">object</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>React props</p></td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>innerRef</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">object</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>External reference hook for the terminal</p></td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>refIndex</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">number</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Index of current terminal in terminalsRef</p></td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>terminalsRef</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">object</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Reference hook containing an array of terminals hooks</p></td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>testTerminal</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">boolean</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>State of test terminal visiblity</p></td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>setTestTerminal</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">function</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Set testTerminal state function</p></td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>setState</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">function</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Set state function</p></td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>duration</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">number</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Duration state</p></td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>setDuration</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">function</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Set duration state function</p></td>
+</tr>
+
+  
+      
+<tr class="deep-level-1">
+    
+        <td class="name"><code>setGeneratedTestText</code></td>
+    
+
+    <td class="type">
+    
+        
+<span class="param-type">function</span>
+
+
+    
+    </td>
+
+    
+
+    
+
+    <td class="description last"><p>Set generatedTestText state function</p></td>
+</tr>
+
+  
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_GenerateTestTerminal.jsx.html" class="button">View Source</a>
+            <span>
+                <a href="components_GenerateTestTerminal.jsx.html">components/GenerateTestTerminal.jsx</a>, <a href="components_GenerateTestTerminal.jsx.html#line52">line 52</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+    <div class="method-parameter columns">
+        <div class="column is-2"><label>Requires:</label></div>
+        <div class="column is-10">
+            <ul>
+                <li>module:axios</li>
+            
+                <li>module:useState</li>
+            
+                <li>module:useRef</li>
+            
+                <li>module:useEffect</li>
+            
+                <li>module:activateTerminal</li>
+            
+                <li><a href="module-getRandomTopic.html">module:getRandomTopic</a></li>
+            
+                <li>module:Terminal</li>
+            
+                <li>module:Menu</li>
+            
+                <li>module:MenuInput</li>
+            
+                <li>module:MenuCheckbox</li>
+            
+                <li>module:MenuSelect</li>
+            
+                <li>module:MenuButton</li>
+            
+                <li>module:SearchTopicTerminal</li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+        
+    
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:axios</li>
+        
+            <li>module:useState</li>
+        
+            <li>module:useRef</li>
+        
+            <li>module:useEffect</li>
+        
+            <li>module:activateTerminal</li>
+        
+            <li><a href="module-getRandomTopic.html">module:getRandomTopic</a></li>
+        
+            <li>module:Terminal</li>
+        
+            <li>module:Menu</li>
+        
+            <li>module:MenuInput</li>
+        
+            <li>module:MenuCheckbox</li>
+        
+            <li>module:MenuSelect</li>
+        
+            <li>module:MenuButton</li>
+        
+            <li>module:SearchTopicTerminal</li>
+        </ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Methods</h1>
+            <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id=".useEffect">
+        <a class="href-link" href="#.useEffect">#</a>
+        
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                useEffect<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Convert duration state to ISO date string if it was type of number,
+this is due to duration coming from <a href="TestTerminal.html">TestTerminal</a> in seconds
+when <a href="TestEndDialogTerminal.html">TestEndDialogTerminal</a> fires <a href="TestTerminal.html#~generateNewTest">generateNewTest</a></p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_GenerateTestTerminal.jsx.html" class="button">View Source</a>
+            <span>
+                <a href="components_GenerateTestTerminal.jsx.html">components/GenerateTestTerminal.jsx</a>, <a href="components_GenerateTestTerminal.jsx.html#line253">line 253</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id=".useEffect">
+        <a class="href-link" href="#.useEffect">#</a>
+        
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                useEffect<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Set <a href="SearchTopicTerminal.html">SearchTopicTerminal</a> active attribute to <code>true</code></p>
+<p>Dependencies: [<code>searchTopic</code>]</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_GenerateTestTerminal.jsx.html" class="button">View Source</a>
+            <span>
+                <a href="components_GenerateTestTerminal.jsx.html">components/GenerateTestTerminal.jsx</a>, <a href="components_GenerateTestTerminal.jsx.html#line270">line 270</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~cleanTextContent">
+        <a class="href-link" href="#~cleanTextContent">#</a>
+        
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                cleanTextContent<span class="signature">(text)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Clean text (coming from Wikiedia API) from unwanted characters, and set to be
+based on the <code>backspace</code> and <code>casing</code> configurations</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>text</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>Text to be cleaned</p></td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_GenerateTestTerminal.jsx.html" class="button">View Source</a>
+            <span>
+                <a href="components_GenerateTestTerminal.jsx.html">components/GenerateTestTerminal.jsx</a>, <a href="components_GenerateTestTerminal.jsx.html#line148">line 148</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Cleaned version of text coming from Wikipedia API</p></div>
+    
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~fetchTextContent">
+        <a class="href-link" href="#~fetchTextContent">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                fetchTextContent<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Fetch summery of a topic based on <code>topic</code> state from Wikipedia's API</p>
+<p><strong>NOTE</strong>: If <code>topic</code> is random, then pick a random topic using getRandomTopic</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_GenerateTestTerminal.jsx.html" class="button">View Source</a>
+            <span>
+                <a href="components_GenerateTestTerminal.jsx.html">components/GenerateTestTerminal.jsx</a>, <a href="components_GenerateTestTerminal.jsx.html#line92">line 92</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+    <div class="method-parameter columns">
+        <div class="column is-2"><label>Requires:</label></div>
+        <div class="column is-10">
+            <ul>
+                <li><a href="module-getRandomTopic.html">module:getRandomTopic</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>First page summery of said topic from Wikipedia</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Promise.&lt;string></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="~generateTest">
+        <a class="href-link" href="#~generateTest">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+                <span class='tag'>inner</span>
+            
+        
+        <span class="code-name">
+            
+                generateTest<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Geneterate test text and set its duration</p>
+<ul>
+<li>Fetch test text and pass it to <code>setTextContent</code></li>
+<li>Convert duration text to seconds</li>
+<li>Set state to 'steady',
+unmounting <a href="GenerateTestTerminal.html">GenerateTestTerminal</a> and mountring <a href="TestTerminal.html">TestTerminal</a> in <a href="Test.html">Test</a></li>
+</ul>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="components_GenerateTestTerminal.jsx.html" class="button">View Source</a>
+            <span>
+                <a href="components_GenerateTestTerminal.jsx.html">components/GenerateTestTerminal.jsx</a>, <a href="components_GenerateTestTerminal.jsx.html#line230">line 230</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

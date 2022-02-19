@@ -1,0 +1,459 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/Terminal.jsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Speed Terminal Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-activeMenuItems.html">activeMenuItems</a></li><li><a href="module-activeTerminal.html">activeTerminal</a></li><li><a href="module-cldi.html">cldi</a></li><li><a href="module-convertEmToPixels.html">convertEmToPixels</a></li><li><a href="module-getDefaultFontSize.html">getDefaultFontSize</a></li><li><a href="module-getRandomTopic.html">getRandomTopic</a></li><li><a href="module-getTransformValue.html">getTransformValue</a></li><li><a href="module-mergeRefs.html">mergeRefs</a></li></ul><h3>Components</h3><ul><li><a href="AboutTerminal.html">AboutTerminal</a></li><li><a href="GenerateTestTerminal.html">GenerateTestTerminal</a></li><li><a href="Header.html">Header</a></li><li><a href="Input.html">Input</a></li><li><a href="Menu.html">Menu</a></li><li><a href="MenuButton.html">MenuButton</a></li><li><a href="MenuCheckbox.html">MenuCheckbox</a></li><li><a href="MenuInput.html">MenuInput</a></li><li><a href="MenuSelect.html">MenuSelect</a></li><li><a href="RoadMapTerminal.html">RoadMapTerminal</a></li><li><a href="SearchTopicTerminal.html">SearchTopicTerminal</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="Test.html">Test</a></li><li><a href="TestEndDialogTerminal.html">TestEndDialogTerminal</a></li><li><a href="TestTerminal.html">TestTerminal</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/Terminal.jsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useRef, useState } from 'react';
+import interact from 'interactjs';
+
+import mergeRefs from '../utils/mergeRefs';
+import convertEmToPixels from '../utils/convertEmToPixels';
+
+import Expand from '../svg/expand.svg';
+import Minimize from '../svg/minimize.svg';
+import Close from '../svg/close.svg';
+
+import activateTerminal from '../utils/activateTerminal';
+
+import '../css/components/Terminal.css';
+import getTransformValue from '../utils/getTransformValue';
+
+/**
+ * @component
+ *
+ * @description Terminal component
+ *
+ * @prop {object} props React props
+ * @prop {object} props.innerRef External reference hook for the terminal
+ * @prop {number} props.refIndex Index of current terminal in terminalsRef
+ * @prop {object} props.terminalsRef Reference hook containing an array of terminals hooks
+ * @prop {string} props.id Id for div container
+ * @prop {string} props.className className for div container
+ * @prop {boolean} props.visible Visible state of terminal
+ * @prop {boolean} props.active Active state of terminal
+ * @prop {boolean} props.disabled Disabled state of terminal
+ * @prop {string} props.title Title of terminal
+ * @prop {boolean} props.expandable Expand button visibility state
+ * @prop {boolean} props.resizable Resize condition used by `resizeMoveListener()`,
+ * defaults to `true`
+ * @prop {string|object} props.initSize Initial size of terminal
+ * @prop {function} props.unmountSelf Unmount function of terminal, setting terminal state to false
+ * @prop {function} props.onMouseDown On mouse down function of terminal
+ * setting its `active` attribute of terminal to `true`
+ * @prop {object} props.children Children of terminal to render in '.terminal__body'
+ */
+function Terminal({
+  innerRef,
+  refIndex,
+  terminalsRef,
+  id,
+  className,
+  visible,
+  active,
+  disabled,
+  title,
+  expandable,
+  resizable,
+  initSize,
+  unmountSelf,
+  children,
+  onMouseDown,
+}) {
+  const terminalRef = useRef();
+
+  const [expanded, setExpanded] = useState(initSize === 'expanded');
+
+  /** Expand terminal and set prev-height, prev-width and prev-transform attributes
+   *  to be used to minimize it back to it's previous size */
+  const expand = () => {
+    const terminal = terminalRef.current;
+
+    terminal.setAttribute(
+      'prev-height',
+      window.getComputedStyle(terminal).height
+    );
+    terminal.setAttribute(
+      'prev-width',
+      window.getComputedStyle(terminal).width
+    );
+    terminal.setAttribute(
+      'prev-transform',
+      window.getComputedStyle(terminal).transform
+    );
+
+    // TODO: add transition animation using JS
+
+    // NOTE: CSS calculated
+    // terminal.style.top = '50%';
+    // terminal.style.left = '50%';
+    // terminal.style.height = 'calc(100vh - 2 * 2.5em)';
+    // terminal.style.width = 'calc(100vw - 2 * 2.5em)';
+    // terminal.style.transform = 'translate(-50%, -50%)';
+
+    // NOTE: JS calculated
+    terminal.style.top = `${document.body.offsetHeight / 2}px`;
+    terminal.style.left = `${document.body.offsetWidth / 2}px`;
+    terminal.style.height = `${
+      document.body.offsetHeight - convertEmToPixels(2 * 2.5)
+    }px`;
+    terminal.style.width = `${
+      document.body.offsetWidth - convertEmToPixels(2 * 2.5)
+    }px`;
+    terminal.style.transform = `translate(-${terminal.offsetWidth / 2}px, -${
+      terminal.offsetHeight / 2
+    }px)`;
+  };
+
+  /** Minimize terminal to it's previous size */
+  const minimize = () => {
+    const terminal = terminalRef.current;
+
+    const prevHeight = terminal.getAttribute('prev-height');
+    const prevWidth = terminal.getAttribute('prev-width');
+    const prevTransform = terminal.getAttribute('prev-transform');
+
+    // TODO: add transition animation using JS
+    terminal.style.top = '';
+    terminal.style.left = '';
+    terminal.style.height = prevHeight;
+    terminal.style.width = prevWidth;
+    terminal.style.transform = prevTransform;
+  };
+
+  /**
+   * @method useEffect
+   * @memberof Terminal
+   * @description Set terminal's `active` attribute to `true` once visible
+   * ### Dependencies: [`visible`, `terminalsRef`, `refIndex`]
+   */
+  useEffect(() => {
+    visible &amp;&amp; activateTerminal(terminalsRef, refIndex);
+  }, [visible, terminalsRef, refIndex]);
+
+  /**
+   * @method useEffect
+   * @memberof Terminal
+   * @description Load initial size of terminal once visible,
+   * and set prev-height, prev-width and prev-transform attributes
+   * ### Dependencies: [`terminalRef`, `visible`]
+   */
+  useEffect(() => {
+    const terminal = terminalRef.current;
+
+    if (visible) {
+      if (initSize) {
+        if (initSize === 'expanded') {
+          expand();
+        } else {
+          terminal.height = initSize.height;
+          terminal.width = initSize.width;
+        }
+      }
+
+      if (terminal) {
+        if (initSize === 'expanded') {
+          terminal.setAttribute('prev-height', '50%');
+          terminal.setAttribute('prev-width', '50%');
+        } else {
+          terminal.setAttribute(
+            'prev-height',
+            window.getComputedStyle(terminal).height
+          );
+          terminal.setAttribute(
+            'prev-width',
+            window.getComputedStyle(terminal).width
+          );
+
+          terminal.setAttribute('data-x', getTransformValue(terminal, 'm41'));
+          terminal.setAttribute('data-y', getTransformValue(terminal, 'm42'));
+          terminal.setAttribute(
+            'prev-transform',
+            window.getComputedStyle(terminal).transform
+          );
+        }
+      }
+    }
+  }, [terminalRef, visible]);
+
+  /**
+   * @method useEffect
+   * @memberof SearchTopicTerminal
+   * @listens dragMoveListener
+   * @listens doubletap
+   * @description Adds dragMoveListener and doubletap event listeners
+   * to and from the search input (`Input`)
+   * ### Dependencies: [`visible`, `disabled`]
+   */
+  useEffect(() => {
+    function dragMoveListener(event) {
+      if (!disabled) {
+        const { target } = event;
+
+        // keep the dragged position in the data-x/data-y attributes
+        const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+        const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+        // translate the element
+        target.style.transform = `translate(${x}px, ${y}px)`;
+
+        // update the posiion attributes
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
+      }
+    }
+
+    function resizeMoveListener(event) {
+      if (!disabled &amp;&amp; resizable) {
+        const { target } = event;
+
+        let x = parseFloat(target.getAttribute('data-x')) || 0;
+        let y = parseFloat(target.getAttribute('data-y')) || 0;
+
+        // update the element's style
+        target.style.width = `${event.rect.width}px`;
+        target.style.height = `${event.rect.height}px`;
+
+        // translate when resizing from top or left edges
+        x += event.deltaRect.left;
+        y += event.deltaRect.top;
+
+        target.style.transform = `translate(${x}px, ${y}px)`;
+
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
+      }
+    }
+
+    visible &amp;&amp;
+      interact(terminalRef.current)
+        .draggable({
+          // enable inertial throwing
+          inertia: true,
+
+          // keep the element within the area of it's parent
+          modifiers: [
+            interact.modifiers.restrictRect({
+              restriction: 'parent',
+              endOnly: true,
+            }),
+          ],
+
+          // enable autoScroll
+          autoScroll: true,
+
+          listeners: {
+            // call this function on every dragmove event
+            move: dragMoveListener,
+
+            // eslint-disable-next-line max-len
+            // TODO: Add "end" listener to put back the target to the viewport if it was let go outside it.
+          },
+        })
+        .resizable({
+          inertia: false,
+
+          modifiers: [
+            // keep the edges inside the parent
+            interact.modifiers.restrictEdges({
+              outer: 'parent',
+            }),
+
+            // minimum and maximum size
+            interact.modifiers.restrictSize({
+              min: { width: 100, height: 50 },
+              max: {
+                height: window.innerHeight - convertEmToPixels(2.5) * 2,
+                width: window.innerWidth - convertEmToPixels(2.5) * 2,
+              },
+            }),
+          ],
+
+          // resize from all edges and corners
+          edges: { left: true, right: true, bottom: true, top: true },
+
+          listeners: {
+            move: resizeMoveListener,
+          },
+        })
+        .on('doubletap', (event) => {
+          // TODO: Toggle expand() and minimize()
+          event.preventDefault();
+        });
+
+    window.dragMoveListener = dragMoveListener;
+  }, [visible, disabled]);
+
+  /**
+   * @method useEffect
+   * @memberof Terminal
+   * @description Set active attribute of terminal to false if `disabled`
+   * ### Dependencies: [`disabled`]
+   */
+  useEffect(() => {
+    const terminal = terminalRef.current;
+
+    if (terminal) {
+      if (disabled) {
+        terminal.setAttribute('active', false);
+      } else {
+        terminal.setAttribute('active', true);
+      }
+    }
+  }, [disabled]);
+
+  return visible ? (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    &lt;div
+      id={id}
+      className={`terminal${className ? ` ${className}` : ''}`}
+      ref={mergeRefs(terminalRef, innerRef)}
+      onMouseDown={onMouseDown}
+      active={active || 'false'}
+    >
+      &lt;div className="terminal__header">
+        &lt;p>{title || 'Terminal'}&lt;/p>
+        {expandable &amp;&amp; (
+          &lt;button
+            type="button"
+            onClick={() => {
+              expanded ? minimize() : expand();
+              setExpanded((prevState) => !prevState);
+            }}
+          >
+            &lt;img
+              src={expanded ? Minimize : Expand}
+              alt=""
+              height="32px"
+              width="32px"
+            />
+          &lt;/button>
+        )}
+        &lt;button type="button" onClick={() => unmountSelf()}>
+          &lt;img src={Close} alt="" height="32px" width="32px" />
+        &lt;/button>
+      &lt;/div>
+      &lt;div className="terminal__body">{children}&lt;/div>
+      &lt;div className="terminal__overlay" />
+    &lt;/div>
+  ) : (
+    &lt;>&lt;/>
+  );
+}
+
+export default Terminal;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

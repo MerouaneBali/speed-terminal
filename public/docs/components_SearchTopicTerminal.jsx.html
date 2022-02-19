@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/SearchTopicTerminal.jsx</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Speed Terminal Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-activeMenuItems.html">activeMenuItems</a></li><li><a href="module-activeTerminal.html">activeTerminal</a></li><li><a href="module-cldi.html">cldi</a></li><li><a href="module-convertEmToPixels.html">convertEmToPixels</a></li><li><a href="module-getDefaultFontSize.html">getDefaultFontSize</a></li><li><a href="module-getRandomTopic.html">getRandomTopic</a></li><li><a href="module-getTransformValue.html">getTransformValue</a></li><li><a href="module-mergeRefs.html">mergeRefs</a></li></ul><h3>Components</h3><ul><li><a href="AboutTerminal.html">AboutTerminal</a></li><li><a href="GenerateTestTerminal.html">GenerateTestTerminal</a></li><li><a href="Header.html">Header</a></li><li><a href="Input.html">Input</a></li><li><a href="Menu.html">Menu</a></li><li><a href="MenuButton.html">MenuButton</a></li><li><a href="MenuCheckbox.html">MenuCheckbox</a></li><li><a href="MenuInput.html">MenuInput</a></li><li><a href="MenuSelect.html">MenuSelect</a></li><li><a href="RoadMapTerminal.html">RoadMapTerminal</a></li><li><a href="SearchTopicTerminal.html">SearchTopicTerminal</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="Test.html">Test</a></li><li><a href="TestEndDialogTerminal.html">TestEndDialogTerminal</a></li><li><a href="TestTerminal.html">TestTerminal</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/SearchTopicTerminal.jsx</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import axios from 'axios';
+
+import React, { useState, useRef, useEffect } from 'react';
+
+import '../css/components/SearchTopicTerminal.css';
+
+import Terminal from './Terminal';
+import Input from './Input';
+import Menu from './Menu';
+import MenuButton from './MenuButton';
+
+/**
+ * @component
+ *
+ * @description Terminal to search and pick test topic from Wikipedia API
+ * which is then used by {@link TestTerminal}
+ *
+ * @prop {object} props React props
+ * @prop {object} props.innerRef External reference hook for the terminal
+ * @prop {number} props.refIndex Index of current terminal in terminalsRef
+ * @prop {object} props.terminalsRef Reference hook containing an array of terminals hooks
+ * @prop {boolean} props.searchTopic State of search topic terminal visiblity
+ * @prop {function} props.setSearchTopic Set searchTopic state function
+ * @prop {number} props.topic Topic state
+ * @prop {function} props.setTopic Set topic state function
+ *
+ * @requires axios
+ * @requires useState
+ * @requires useRef
+ * @requires useEffect
+ * @requires Terminal
+ * @requires Input
+ * @requires Menu
+ * @requires MenuButton
+ */
+function SearchTopicTerminal({
+  innerRef,
+  refIndex,
+  terminalsRef,
+  searchTopic,
+  setSearchTopic,
+  topic,
+  setTopic,
+}) {
+  const [search, setSearch] = useState('random');
+
+  const [searchResults, setSearchResults] = useState([]);
+
+  const searchRef = useRef();
+
+  const styles = {
+    searchResult: {
+      fontWeight: '400',
+    },
+  };
+
+  /** Focus search input (`Input`) on blur */
+  const onBlurHandler = () => {
+    searchTopic &amp;&amp; searchRef.current &amp;&amp; searchRef.current.focus();
+  };
+
+  /**
+   * @method useEffect
+   * @memberof SearchTopicTerminal
+   * @listens blur - onBlurHandler
+   * @description Adds and removes blur event listener of {@link onBlurHandler}
+   * to and from the search input (`Input`)
+   * ### Dependencies: [`searchTopic`, `searchRef`]
+   */
+  useEffect(() => {
+    searchTopic &amp;&amp;
+      searchRef.current &amp;&amp;
+      searchRef.current.addEventListener('blur', onBlurHandler);
+
+    searchTopic &amp;&amp; searchRef.current &amp;&amp; searchRef.current.focus();
+
+    return () => {
+      searchTopic &amp;&amp;
+        searchRef.current &amp;&amp;
+        searchRef.current.removeEventListener('blur', onBlurHandler);
+    };
+  }, [searchTopic, searchRef]);
+
+  /**
+   * @method useEffect
+   * @memberof SearchTopicTerminal
+   * @description Set search state said topic on `topic` change
+   * to and from the search input (`Input`)
+   * ### Dependencies: [`topic`]
+   */
+  useEffect(() => {
+    topic &amp;&amp; setSearch(topic);
+  }, [topic]);
+
+  /**
+   * @method useEffect
+   * @memberof SearchTopicTerminal
+   * @description Populates `searchResults` with matching topic titles
+   * from Wikipedia API on `search` change
+   * ### Dependencies: [`search`]
+   */
+  useEffect(() => {
+    setSearchResults([]);
+
+    search &amp;&amp;
+      axios
+        .get('https://en.wikipedia.org/w/api.php?origin=*', {
+          params: {
+            action: 'query',
+            format: 'json',
+            generator: 'search',
+            gsrsearch: search,
+            prop: 'info',
+            rnlimit: 10,
+          },
+        })
+        .then(({ data }) => {
+          if (!data.query) return setSearchResults([]);
+
+          const { pages } = data.query;
+
+          return Object.keys(pages)
+            .slice(0, 10)
+            .map(
+              (id) =>
+                setSearchResults((prevState) => [
+                  ...prevState,
+                  &lt;MenuButton
+                    label={pages[id].title}
+                    style={styles.searchResult}
+                    onClickHandler={() => {
+                      setTopic(pages[id].title);
+                      setSearchTopic(false);
+                    }}
+                  />,
+                ])
+              // eslint-disable-next-line function-paren-newline
+            );
+        });
+  }, [search]);
+
+  return (
+    &lt;Terminal
+      innerRef={innerRef}
+      refIndex={refIndex}
+      terminalsRef={terminalsRef}
+      id="search-topic-terminal"
+      title="Generate Test / Topic"
+      expandable
+      resizable
+      visible={searchTopic}
+      unmountSelf={() => setSearchTopic(false)}
+      onMouseDown={() => innerRef.current.setAttribute('active', true)}
+    >
+      &lt;p id="search-topic-terminal__info">ⓘ Powered by Wikipedia API&lt;/p>
+      &lt;Input
+        innerRef={searchRef}
+        label="? Search"
+        type="text"
+        placeholder={search}
+        value={search}
+        setValue={setSearch}
+      />
+      &lt;Menu parentTerminalRef={innerRef} menuItems={searchResults} />
+    &lt;/Terminal>
+  );
+}
+
+export default SearchTopicTerminal;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>
