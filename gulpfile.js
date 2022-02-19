@@ -29,4 +29,5 @@ function watch() {
 }
 
 exports.buildStyles = buildStyles;
+exports.generateDocumentation = generateDocumentation;
 exports.watch = watch;
